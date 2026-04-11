@@ -277,6 +277,7 @@ If you installed via the Claude Code plugin, you get these skills:
 
 | Skill | Command | Description |
 |---|---|---|
+| Platform Reference | `/bulkpublish:platform-reference` | All 11 platforms — post types, media rules, required fields, limits |
 | Schedule Post | `/bulkpublish:schedule-post` | Create and schedule posts with optimal timing |
 | Get Analytics | `/bulkpublish:get-analytics` | Pull performance reports and engagement data |
 | Manage Channels | `/bulkpublish:manage-channels` | View connected accounts and troubleshoot issues |

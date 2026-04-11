@@ -57,6 +57,16 @@ firstComment   (string)           — auto-reply after publishing
 | Google Business | 1,500 |
 | Mastodon | 500 |
 
+## Platform media requirements
+
+| Platform | Requires | Notes |
+|---|---|---|
+| YouTube | Video ONLY | Do NOT include YouTube for image-only posts |
+| TikTok | Video ONLY | Or images for `photo_slideshow` type |
+| Instagram | Depends on type | `feed_photo`=image, `reel`/`feed_video`=video, `carousel`=2-10 mixed |
+| Pinterest | Image or video | Needs board ID in `platformSpecific` or channel default |
+| Facebook/X/LinkedIn/Threads/Bluesky/Mastodon | Any or none | Text-only posts OK |
+
 ## Common mistakes
 
 - `channels` takes objects `{channelId, platform}`, NOT just IDs
@@ -64,3 +74,7 @@ firstComment   (string)           — auto-reply after publishing
 - `scheduledAt` must be in the future and in ISO 8601 format
 - To publish immediately: create as draft, then call `publish_post`
 - `mediaFileIds` are numbers from `upload_media`, not file paths
+- **Do NOT send image-only posts to YouTube or TikTok** — they will fail
+- **Instagram defaults to `feed_photo`** — set `postTypeOverrides.instagram` to `reel` or `feed_video` for video
+- **Pinterest needs a board ID** — set via `platformSpecific.pinterest.boardId` or it tries to auto-create one
+- **Content char limits** are enforced per-platform — use `platformContent` for shorter overrides on Pinterest (500), Bluesky (300), etc.
