@@ -280,7 +280,7 @@ If you installed via the Claude Code plugin, you get these skills:
 | Schedule Post | `/bulkpublish:schedule-post` | Create and schedule posts with optimal timing |
 | Get Analytics | `/bulkpublish:get-analytics` | Pull performance reports and engagement data |
 | Manage Channels | `/bulkpublish:manage-channels` | View connected accounts and troubleshoot issues |
-| Bulk Upload | `/bulkpublish:bulk-upload` | Upload media and schedule posts in batch |
+| Bulk Publish | `/bulkpublish:bulk-publish` | Upload media and publish posts in batch |
 | Check Quota | `/bulkpublish:check-quota` | View plan limits and current usage |
 
 ---

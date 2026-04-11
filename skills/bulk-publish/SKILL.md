@@ -1,9 +1,9 @@
 ---
-name: bulk-upload
-description: Upload media files (local or URL) and manage media library via BulkPublish. Use when the user wants to upload images or videos.
+name: bulk-publish
+description: Upload media files (local or URL), manage media library, and batch-create posts via BulkPublish. Use when the user wants to upload files or publish content in bulk.
 ---
 
-# BulkPublish — Media Upload Reference
+# BulkPublish — Media & Bulk Publishing Reference
 
 ## upload_media parameters
 
