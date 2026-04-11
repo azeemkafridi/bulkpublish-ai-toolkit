@@ -40,6 +40,16 @@ firstComment   (string)           — auto-reply after publishing
 - **Draft then publish**: `create_post` (status: "draft") → `publish_post` (postId)
 - **Schedule for later**: `create_post` (status: "scheduled", scheduledAt: "2026-04-12T09:00:00Z")
 - **Optimal timing**: call `get_queue_slot` with channelId to get the best next slot
+- **Publish as story**: set `postTypeOverrides` to `"story"` for Facebook/Instagram — publishes directly as a story, no separate call needed
+- **Re-publish existing post as story**: use `publish_story` (postId, platform) — for posts already created as regular posts
+
+## Stories vs postTypeOverrides
+
+To publish as a story, use `postTypeOverrides` at creation time:
+```json
+{ "postTypeOverrides": { "facebook": "story", "instagram": "story" } }
+```
+This publishes the post AS a story. The separate `publish_story` tool is only for re-publishing an already-created post as an additional story after the fact.
 
 ## Character limits
 
