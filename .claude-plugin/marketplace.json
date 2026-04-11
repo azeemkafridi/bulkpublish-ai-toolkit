@@ -1,0 +1,38 @@
+{
+  "name": "bulkpublish-ai-toolkit",
+  "version": "1.0.0",
+  "description": "Official BulkPublish AI Toolkit — MCP server + skills for social media automation",
+  "owner": {
+    "name": "BulkPublish",
+    "url": "https://bulkpublish.com"
+  },
+  "plugins": [
+    {
+      "name": "bulkpublish",
+      "version": "1.0.0",
+      "description": "Schedule posts, manage channels, track analytics across 11 social platforms from any AI assistant",
+      "author": {
+        "name": "BulkPublish",
+        "url": "https://bulkpublish.com"
+      },
+      "homepage": "https://bulkpublish.com",
+      "repository": "https://github.com/azeemkafridi/bulkpublish-ai-toolkit",
+      "license": "MIT",
+      "tags": [
+        "social-media",
+        "automation",
+        "scheduling",
+        "mcp",
+        "publishing",
+        "analytics"
+      ],
+      "category": "integrations",
+      "source": {
+        "source": "github",
+        "repo": "azeemkafridi/bulkpublish-ai-toolkit",
+        "path": "./",
+        "ref": "main"
+      }
+    }
+  ]
+}

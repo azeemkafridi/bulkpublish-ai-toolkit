@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "bulkpublish": {
+      "command": "npx",
+      "args": ["-y", "@bulkpublish/mcp-server"],
+      "env": {
+        "BULKPUBLISH_API_KEY": "${user_config.api_key}"
+      }
+    }
+  }
+}
