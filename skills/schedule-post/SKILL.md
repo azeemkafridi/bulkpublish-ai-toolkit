@@ -1,53 +1,66 @@
 ---
 name: schedule-post
-description: Schedule social media posts across multiple platforms with optimal timing. Use when the user wants to create, schedule, or publish posts to social media.
-allowed-tools: Bash(npx *) Read Grep
+description: Create, schedule, or publish social media posts via BulkPublish MCP. Use when the user wants to post to social media.
 ---
 
-# Schedule a Social Media Post
+# BulkPublish — Post Creation Reference
 
-Help the user create and schedule a post using the BulkPublish MCP tools.
+## create_post parameters
 
-## Workflow
+```
+content        (string, required) — post text
+channels       (array, required)  — [{channelId: number, platform: string}]
+                                    Get these from list_channels first
+status         ("draft"|"scheduled") — default "draft"
+scheduledAt    (ISO 8601 string)  — required when status is "scheduled"
+timezone       (string)           — e.g. "America/New_York", "Asia/Karachi"
+mediaFileIds   (number[])         — IDs from upload_media
+platformContent (object)          — per-platform text: {"x": "Short", "linkedin": "Longer version"}
+postTypeOverrides (object)        — per-platform format: {"instagram": "reel", "facebook": "story"}
+postFormat     ("post"|"thread")  — "thread" requires threadParts
+threadParts    (array)            — [{content: string, mediaFileIds?: number[]}], min 2 parts
+firstComment   (string)           — auto-reply after publishing
+```
 
-1. **Gather content** from the user — text, images/videos (URLs), and target platforms
-2. **Check channels** — call `list_channels` to see which platforms are connected and healthy
-3. **Validate content** — check character limits per platform:
-   - X/Twitter: 280 chars (25,000 for long posts)
-   - Instagram: 2,200 chars
-   - Facebook: 63,206 chars
-   - LinkedIn: 3,000 chars
-   - TikTok: 2,200 chars
-   - YouTube: 5,000 chars (description)
-   - Threads: 500 chars
-   - Bluesky: 300 chars
-   - Pinterest: 500 chars
-   - Google Business: 1,500 chars
-   - Mastodon: 500 chars
-4. **Upload media** if needed — call `upload_media` with the file URL
-5. **Create the post** — call `create_post` with:
-   - `channelIds`: array of channel IDs to publish to
-   - `content`: the post text
-   - `scheduledAt`: ISO 8601 datetime (or omit for draft)
-   - `mediaFileIds`: array of uploaded media IDs
-   - `platformContent`: platform-specific overrides if content differs per platform
-   - `postTypeOverrides`: for stories, reels, threads, carousels, etc.
-6. **Confirm** — show the user what was scheduled, when, and to which platforms
+## Post type overrides
 
-## Platform-Specific Post Types
+| Platform | Types |
+|---|---|
+| Instagram | `reel`, `story`, `carousel` |
+| Facebook | `story`, `reel` |
+| TikTok | `slideshow` |
+| YouTube | `short` |
+| X/Twitter | `thread` |
+| Threads | `thread` |
+| Bluesky | `thread` |
+| Mastodon | `thread` |
 
-Use `postTypeOverrides` for special formats:
-- Instagram: `reel`, `story`, `carousel`
-- Facebook: `story`, `reel`
-- TikTok: `slideshow`
-- YouTube: `short`
-- X/Twitter: `thread`
-- Threads: `thread`
-- Bluesky: `thread`
-- Mastodon: `thread`
+## Publishing flow
 
-## Tips
+- **Draft then publish**: `create_post` (status: "draft") → `publish_post` (postId)
+- **Schedule for later**: `create_post` (status: "scheduled", scheduledAt: "2026-04-12T09:00:00Z")
+- **Optimal timing**: call `get_queue_slot` with channelId to get the best next slot
 
-- If the user doesn't specify a time, use `get_queue_slot` to find the optimal slot
-- For multi-platform posts with different content per platform, use `platformContent`
-- Always show a preview/summary before creating the post
+## Character limits
+
+| Platform | Limit |
+|---|---|
+| X/Twitter | 280 (25,000 long posts) |
+| Instagram | 2,200 |
+| Facebook | 63,206 |
+| LinkedIn | 3,000 |
+| TikTok | 2,200 |
+| YouTube | 5,000 (description) |
+| Threads | 500 |
+| Bluesky | 300 |
+| Pinterest | 500 |
+| Google Business | 1,500 |
+| Mastodon | 500 |
+
+## Common mistakes
+
+- `channels` takes objects `{channelId, platform}`, NOT just IDs
+- Always call `list_channels` first to get valid channelId + platform pairs
+- `scheduledAt` must be in the future and in ISO 8601 format
+- To publish immediately: create as draft, then call `publish_post`
+- `mediaFileIds` are numbers from `upload_media`, not file paths

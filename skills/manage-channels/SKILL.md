@@ -1,38 +1,38 @@
 ---
 name: manage-channels
-description: List connected social media channels, check their health, and troubleshoot connection issues. Use when the user asks about their connected accounts or channel status.
-allowed-tools: Bash(npx *) Read
+description: List connected social media channels and check their health via BulkPublish. Use when the user asks about their connected accounts.
 ---
 
-# Manage Channels
+# BulkPublish — Channels Reference
 
-Help the user view and troubleshoot their connected social media accounts.
+## Tools
 
-## Workflow
+| Tool | Use for | Key params |
+|---|---|---|
+| `list_channels` | All connected accounts with IDs and status | none |
+| `get_channel_health` | Token validity and connection issues | `channelId` |
+| `get_channel_options` | Platform-specific options | `channelId` |
+| `search_mentions` | Find @mention usernames | `channelId`, `query` |
 
-1. **List channels** — call `list_channels` to see all connected accounts
-   - Returns: channel ID, platform, account name, token health status
+## list_channels response shape
 
-2. **Check health** — for any channel the user is concerned about, call `get_channel_health`
-   - Returns: token validity, connection status, expiry info, issues
+Each channel: `id`, `platform`, `accountName`, `accountId`, `accountType`, `isActive`, `tokenStatus` ("valid"/"expired"/"error"), `tokenExpiresAt`.
 
-3. **Get options** — call `get_channel_options` to see platform-specific capabilities:
-   - Pinterest: available boards
-   - YouTube: playlists, categories
-   - LinkedIn: organization pages
-   - Instagram: eligible collaborators
+## Platform names (used in channels and create_post)
 
-4. **Search mentions** — if the user needs to find accounts to tag, use `search_mentions`
-   - Works on X/Twitter and Bluesky
-   - Returns matching usernames for @mentions
+`facebook`, `instagram`, `x`, `linkedin`, `tiktok`, `youtube`, `pinterest`, `threads`, `bluesky`, `google_business`, `mastodon`
 
-## Common Issues
+## Channel options by platform
 
-- **Token expired**: User needs to reconnect at app.bulkpublish.com/channels
-- **Rate limited**: Platform is throttling — suggest waiting or reducing post frequency
-- **Scope missing**: Channel was connected with limited permissions — reconnect with full scopes
+| Platform | get_channel_options returns |
+|---|---|
+| Pinterest | Available boards |
+| YouTube | Playlists, categories |
+| LinkedIn | Organization pages |
+| Instagram | Eligible collaborators |
 
 ## Notes
 
-- Channels can only be connected/reconnected via the web UI (OAuth flow)
-- The API can list, check health, and get options — but not create new connections
+- Channels can only be connected/reconnected via the web UI (OAuth) — not via API
+- `search_mentions` works on X/Twitter and Bluesky only
+- Token "expired" means the user needs to reconnect at app.bulkpublish.com/channels

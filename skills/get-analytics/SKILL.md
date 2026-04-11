@@ -1,37 +1,34 @@
 ---
 name: get-analytics
-description: Pull analytics, engagement metrics, and performance data for social media posts. Use when the user asks about post performance, engagement, or wants a report.
-allowed-tools: Bash(npx *) Read
+description: Pull analytics, engagement metrics, and performance data from BulkPublish. Use when the user asks about post performance or engagement.
 ---
 
-# Get Analytics & Metrics
+# BulkPublish — Analytics Reference
 
-Help the user understand how their social media content is performing.
+## Tools
 
-## Workflow
+| Tool | Use for | Key params |
+|---|---|---|
+| `get_analytics` | Overall summary for a date range | `startDate`, `endDate` (ISO dates) |
+| `get_post_metrics` | Single post engagement | `postId` |
+| `get_quota_usage` | Plan limits and current usage | none |
+| `list_posts` | Find posts to analyze | `status`, `from`, `to`, `channelId`, `search` |
 
-1. **Determine scope** — ask the user what they want:
-   - Overall analytics for a date range? Use `get_analytics`
-   - Metrics for a specific post? Use `get_post_metrics`
-   - Quota/usage overview? Use `get_quota_usage`
+## get_analytics response shape
 
-2. **Get analytics summary** — call `get_analytics` with:
-   - `startDate`: ISO date (e.g., "2026-04-01")
-   - `endDate`: ISO date (e.g., "2026-04-11")
-   - Returns: total posts, status breakdown, per-platform stats, daily counts
+Returns: total posts, status breakdown (published/failed/scheduled/draft), per-platform counts, daily post counts for the range.
 
-3. **Get post-level metrics** — call `get_post_metrics` with `postId`:
-   - Returns: likes, comments, shares, impressions, reach, clicks
-   - Metrics vary by platform
+## get_post_metrics response shape
 
-4. **Present results** clearly:
-   - Summarize key numbers (total reach, engagement rate, top-performing posts)
-   - Break down by platform if relevant
-   - Highlight trends (growth, decline, best days/times)
+Returns per-platform: likes, comments, shares, impressions, reach, clicks, saves. Metrics vary by platform — not all platforms report all fields.
 
-## Common Queries
+## get_quota_usage response shape
 
-- "How did my posts do this week?" -> `get_analytics` with last 7 days
-- "Which post got the most engagement?" -> `list_posts` then `get_post_metrics` for top ones
-- "Am I hitting my limits?" -> `get_quota_usage`
-- "Show me Instagram performance" -> `get_analytics` then filter by platform
+Returns: plan name, limits (channels, posts/day, storage, API calls), current usage for each, subscription status.
+
+## Patterns
+
+- "How did my posts do this week?" → `get_analytics` with last 7 days
+- "Which post got the most likes?" → `list_posts` (status: "published") then `get_post_metrics` for each
+- "Am I near my limits?" → `get_quota_usage`
+- Date params are ISO date strings: "2026-04-01", not datetime

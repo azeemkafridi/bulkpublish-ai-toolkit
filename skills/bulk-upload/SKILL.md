@@ -1,42 +1,51 @@
 ---
 name: bulk-upload
-description: Upload multiple media files and schedule bulk posts across platforms. Use when the user has a batch of content to publish or a content calendar to execute.
-allowed-tools: Bash(npx *) Read Grep
+description: Upload media files (local or URL) and manage media library via BulkPublish. Use when the user wants to upload images or videos.
 ---
 
-# Bulk Upload & Schedule
+# BulkPublish — Media Upload Reference
 
-Help the user upload media in bulk and schedule multiple posts efficiently.
+## upload_media parameters
 
-## Workflow
+```
+url       (string, optional) — public URL to download from
+filePath  (string, optional) — absolute local file path (e.g. /Users/me/photo.png)
+filename  (string, optional) — override filename, otherwise derived from url/path
+```
 
-1. **Gather content** — the user may provide:
-   - A list of posts with text + media URLs
-   - A CSV/file with content to schedule
-   - A folder of images/videos to upload
+Provide either `url` OR `filePath`, not both.
 
-2. **Upload media** — for each file, call `upload_media` with:
-   - `url`: public URL of the image/video
-   - `label`: optional label for organization
-   - Supported: JPEG, PNG, WebP, GIF, MP4, MOV, WebM (max 100MB)
-   - Track returned `mediaFileId` for each upload
+## Supported formats
 
-3. **Check quota** — call `get_quota_usage` to verify the user has enough:
-   - Daily post limit
-   - Storage space
-   - Scheduled post slots
+| Type | Formats | Max size |
+|---|---|---|
+| Image | JPEG, PNG, WebP, GIF | 100MB |
+| Video | MP4, MOV, WebM | 100MB |
 
-4. **Schedule posts** — for each post, call `create_post` with:
-   - Stagger scheduling times (use `get_queue_slot` for optimal slots)
-   - Attach the uploaded media via `mediaFileIds`
-   - Apply labels for organization
+## Response
 
-5. **Summary** — present a table of all scheduled posts:
-   - Post content (truncated), platforms, scheduled time, media count, status
+Returns: `id` (use this in `mediaFileIds` when creating posts), `fileName`, `mimeType`, `sizeBytes`, `width`, `height`, `duration` (video), `originalUrl`, `thumbnailUrl`, `previewUrl`.
 
-## Tips
+## Other media tools
 
-- Use `list_labels` first and create labels with `create_label` if needed for batch organization
-- For recurring content, consider `create_schedule` with a cron expression instead
-- If the user provides a CSV, parse it and map columns to post fields
-- Always confirm the schedule before creating all posts
+| Tool | Use for | Key params |
+|---|---|---|
+| `list_media` | Browse uploaded files | `search`, `page`, `limit` |
+| `get_media` | Single file details | `mediaId` |
+| `delete_media` | Remove a file | `mediaId` |
+
+## Media requirements by platform
+
+| Platform | Image | Video | Notes |
+|---|---|---|---|
+| Instagram Reels | — | MP4, 9:16 | 3-90 seconds |
+| Instagram Stories | JPEG/PNG, 9:16 | MP4, 9:16 | 1080x1920 recommended |
+| Instagram Carousel | JPEG/PNG | — | 2-10 images |
+| TikTok | — | MP4 | 1-10 minutes |
+| YouTube | — | MP4 | Requires title in platformSpecific |
+| Pinterest | JPEG/PNG, 2:3 | MP4 | 1000x1500 recommended |
+| Facebook/X/LinkedIn | JPEG/PNG | MP4 | Most formats accepted |
+
+## Bulk pattern
+
+For multiple files: call `upload_media` for each file, collect the returned IDs, then pass all IDs in `mediaFileIds` when creating the post.
