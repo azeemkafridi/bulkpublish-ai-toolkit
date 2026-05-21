@@ -166,6 +166,8 @@ description: Complete reference for all 11 BulkPublish platforms — post types,
 
 **Media specs:** Image max 10MB (jpg/png/gif), max 20. Video max 500MB (mp4 only), max 1, 3s-30min.
 
+**Account types:** `personal` (member profile) or `organization` (company page). Both are connected in the dashboard and then used like any other channel — `list_channels` reports which via `accountType`.
+
 **platformSpecific options:**
 - `title` — article/video title
 - `description` — article description

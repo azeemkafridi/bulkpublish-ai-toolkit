@@ -28,11 +28,11 @@ Each channel: `id`, `platform`, `accountName`, `accountId`, `accountType`, `isAc
 |---|---|
 | Pinterest | Available boards |
 | YouTube | Playlists, categories |
-| LinkedIn | Organization pages |
 | Instagram | Eligible collaborators |
 
 ## Notes
 
 - Channels can only be connected/reconnected via the web UI (OAuth) — not via API
+- LinkedIn channels are either a personal profile or a company page (`accountType`: `personal` / `organization`); both are connected in the dashboard and posted to like any other channel
 - `search_mentions` works on X/Twitter and Bluesky only
 - Token "expired" means the user needs to reconnect at app.bulkpublish.com/channels
