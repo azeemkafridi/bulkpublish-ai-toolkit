@@ -4,7 +4,7 @@ Connect your AI assistant to [BulkPublish](https://bulkpublish.com) — schedule
 
 ## What You Get
 
-**29 MCP tools** covering the full BulkPublish API:
+**37 MCP tools** covering the full BulkPublish API, including interactive MCP Apps widgets:
 
 | Category | Tools | Examples |
 |---|---|---|
@@ -304,7 +304,7 @@ Once connected, just ask your AI assistant in natural language:
 
 ---
 
-## All 29 MCP Tools
+## All 37 MCP Tools
 
 <details>
 <summary>Click to expand full tool list</summary>
@@ -316,7 +316,7 @@ Once connected, just ask your AI assistant in natural language:
 `list_channels`, `get_channel_health`, `get_channel_options`, `search_mentions`
 
 **Media:**
-`upload_media`, `list_media`, `get_media`, `delete_media`
+`upload_media`, `list_media`, `get_media`, `delete_media`, `create_media_upload`, `finalize_media_upload`
 
 **Labels:**
 `list_labels`, `create_label`, `update_label`, `delete_label`
@@ -332,6 +332,9 @@ Once connected, just ask your AI assistant in natural language:
 
 **Queue:**
 `get_queue_slot`
+
+**Interactive UI (MCP Apps):**
+`compose_post`, `view_analytics`, `view_posts`, `view_channels`, `view_media`, `view_quota`
 
 </details>
 
