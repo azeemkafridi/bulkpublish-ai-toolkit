@@ -1,6 +1,6 @@
 # BulkPublish AI Toolkit
 
-Connect your AI assistant to [BulkPublish](https://bulkpublish.com) — schedule posts, manage channels, upload media, and track analytics across 11 social media platforms, all from your AI tool of choice.
+Connect your AI assistant to [BulkPublish](https://bulkpublish.com) — schedule posts, manage channels, upload media, and track analytics across 14 social media platforms, all from your AI tool of choice.
 
 ## What You Get
 
@@ -17,7 +17,7 @@ Connect your AI assistant to [BulkPublish](https://bulkpublish.com) — schedule
 | **Quota** | 1 | Plan usage and limits |
 | **Queue** | 1 | Next optimal posting slot |
 
-**Supported platforms:** Facebook, Instagram, X/Twitter, TikTok, YouTube, Threads, Bluesky, Pinterest, Google Business Profile, LinkedIn, Mastodon
+**Supported platforms:** Facebook, Instagram, X/Twitter, TikTok, YouTube, Threads, Bluesky, Pinterest, Google Business Profile, LinkedIn, Mastodon, Reddit, Discord, Telegram
 
 ## Prerequisites
 
@@ -277,7 +277,7 @@ If you installed via the Claude Code plugin, you get these skills:
 
 | Skill | Command | Description |
 |---|---|---|
-| Platform Reference | `/bulkpublish:platform-reference` | All 11 platforms — post types, media rules, required fields, limits |
+| Platform Reference | `/bulkpublish:platform-reference` | All 14 platforms — post types, media rules, required fields, limits |
 | Schedule Post | `/bulkpublish:schedule-post` | Create and schedule posts with optimal timing |
 | Get Analytics | `/bulkpublish:get-analytics` | Pull performance reports and engagement data |
 | Manage Channels | `/bulkpublish:manage-channels` | View connected accounts and troubleshoot issues |

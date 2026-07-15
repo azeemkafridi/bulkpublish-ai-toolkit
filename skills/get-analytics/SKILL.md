@@ -16,7 +16,7 @@ description: Pull analytics, engagement metrics, and performance data from BulkP
 
 ## get_analytics response shape
 
-Returns: total posts, status breakdown (published/failed/scheduled/draft), per-platform counts, daily post counts for the range.
+Returns: total posts, status breakdown (any of the 7 post statuses: draft, scheduled, publishing, published, processing, failed, partial), per-platform counts, daily post counts for the range.
 
 ## get_post_metrics response shape
 

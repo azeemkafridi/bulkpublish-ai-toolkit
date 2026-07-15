@@ -17,7 +17,7 @@ timezone       (string)           — e.g. "America/New_York", "Asia/Karachi"
 mediaFileIds   (number[])         — IDs from upload_media
 platformContent (object)          — per-platform text: {"x": "Short", "linkedin": "Longer version"}
 postTypeOverrides (object)        — per-platform format: {"instagram": "reel", "facebook": "story"}
-postFormat     ("post"|"thread")  — "thread" requires threadParts
+postFormat     ("post"|"video"|"reel"|"story"|"carousel"|"thread") — "thread" requires threadParts
 threadParts    (array)            — [{content: string, mediaFileIds?: number[]}], min 2 parts
 firstComment   (string)           — auto-reply after publishing
 ```
@@ -39,7 +39,7 @@ firstComment   (string)           — auto-reply after publishing
 
 - **Draft then publish**: `create_post` (status: "draft") → `publish_post` (postId)
 - **Schedule for later**: `create_post` (status: "scheduled", scheduledAt: "2026-04-12T09:00:00Z")
-- **Optimal timing**: call `get_queue_slot` with channelId to get the best next slot
+- **Optimal timing**: call `get_queue_slot` (optionally pass `timezone`, default UTC) to get the best next slot. It returns `{suggestedTime, timezone}` — it does NOT take a channelId or date (any such args are ignored).
 - **Publish as story**: set `postTypeOverrides` to `"story"` for Facebook/Instagram — publishes directly as a story, no separate call needed
 - **Re-publish existing post as story**: use `publish_story` (postId, platform) — for posts already created as regular posts
 

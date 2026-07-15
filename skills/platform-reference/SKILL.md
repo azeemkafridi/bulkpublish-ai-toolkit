@@ -1,6 +1,6 @@
 ---
 name: platform-reference
-description: Complete reference for all 11 BulkPublish platforms — post types, media requirements, required fields, character limits, and platformSpecific options. ALWAYS consult before creating posts.
+description: Complete reference for all 14 BulkPublish platforms — post types, media requirements, required fields, character limits, and platformSpecific options. ALWAYS consult before creating posts.
 ---
 
 # BulkPublish — Platform Reference
@@ -299,3 +299,49 @@ description: Complete reference for all 11 BulkPublish platforms — post types,
 - `visibility` — `public` (default), `unlisted`, `private`, `direct`
 - `spoilerText` — content warning text
 - `language` — ISO 639-1 language code
+
+---
+
+## Reddit
+
+| Field | Value |
+|---|---|
+| Platform key | `reddit` |
+| Char limit | 40,000 (body) |
+| Title required | **YES** — `platformSpecific.reddit.title` |
+| Subreddit required | **YES** — `platformSpecific.reddit.subreddit` |
+
+**Post types:** text (self), link, image, and video posts depending on media/`platformSpecific.reddit.url`.
+
+**platformSpecific options:**
+- `subreddit` — **REQUIRED**, target subreddit (without the `r/` prefix)
+- `title` — **REQUIRED**, post title
+- `url` — link URL for link posts
+- `flairId` / `flairText` — post flair
+- `nsfw` / `spoiler` — booleans
+
+---
+
+## Discord
+
+| Field | Value |
+|---|---|
+| Platform key | `discord` |
+| Char limit | 2,000 |
+| Title required | No |
+
+**Post types:** message with optional attachments (images/video). Posts to the connected channel/webhook.
+
+**Media specs:** attachments accepted; overall payload subject to Discord's per-message upload limit.
+
+---
+
+## Telegram
+
+| Field | Value |
+|---|---|
+| Platform key | `telegram` |
+| Char limit | 4,096 (text) / 1,024 (media caption) |
+| Title required | No |
+
+**Post types:** text message, photo, video, or media group. Posts to the connected channel/chat.
