@@ -77,6 +77,24 @@ This publishes the post AS a story. The separate `publish_story` tool is only fo
 | Pinterest | Image or video | Needs board ID in `platformSpecific` or channel default |
 | Facebook/X/LinkedIn/Threads/Bluesky/Mastodon | Any or none | Text-only posts OK |
 
+## RSS Autopost (REST API)
+
+Auto-create posts from an RSS/Atom feed — BulkPublish polls each feed every 15 minutes and turns new items into posts. No MCP tool yet — call the REST API directly (`Authorization: Bearer bp_your_key`, base `https://app.bulkpublish.com`).
+
+| Endpoint | Use for |
+|---|---|
+| `GET /api/rss-feeds` | List feeds (ordered by name) |
+| `POST /api/rss-feeds` | Create — body `{name, feedUrl, channelIds, mode?}` |
+| `PUT /api/rss-feeds/{id}` | Partial update — body `{name?, feedUrl?, channelIds?, mode?, enabled?}` |
+| `DELETE /api/rss-feeds/{id}` | Delete |
+
+- `mode` is `"draft"` or `"publish"`, **default `"draft"`** — draft: new feed items land as draft posts for review; publish: they are auto-published
+- `feedUrl` must be a public http(s) RSS 2.0/Atom URL — the server validates it is reachable at create time
+- `channelIds` needs at least 1 org-owned channel id; `name` max 100 chars
+- Max **20 feeds per org** → 400 beyond that
+- **Changing `feedUrl` re-baselines the feed** (resets `lastCheckedAt`): only items newer than the change are posted — the old backlog is never flooded
+- Feed object includes `enabled`, `lastCheckedAt`, `lastError` for troubleshooting
+
 ## Common mistakes
 
 - `channels` takes objects `{channelId, platform}`, NOT just IDs

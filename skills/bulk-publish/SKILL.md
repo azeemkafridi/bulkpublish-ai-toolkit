@@ -20,7 +20,7 @@ Provide either `url` OR `filePath`, not both.
 | Type | Formats | Max size |
 |---|---|---|
 | Image | JPEG, PNG, WebP, GIF | 100MB |
-| Video | MP4, MOV, WebM | 100MB |
+| Video | MP4, MOV, WebM | 100MB (up to 1GB via multipart — see below) |
 
 ## Response
 
@@ -45,6 +45,17 @@ Returns: `id` (use this in `mediaFileIds` when creating posts), `fileName`, `mim
 | YouTube | — | MP4 | Requires title in platformSpecific |
 | Pinterest | JPEG/PNG, 2:3 | MP4 | 1000x1500 recommended |
 | Facebook/X/LinkedIn | JPEG/PNG | MP4 | Most formats accepted |
+
+## Large files — multipart upload (REST API)
+
+For videos over 100MB (up to **1GB**), use the chunked multipart flow. No MCP tool yet — call the REST API directly (`Authorization: Bearer bp_your_key`, base `https://app.bulkpublish.com`):
+
+1. `POST /api/media/multipart/create` — body `{contentType, sizeBytes}` (exact size) → `{r2Key, uploadId, partSize, partUrls, expiresIn}`. `partSize` is fixed at 10MB (10485760); `partUrls` is one presigned PUT URL per part, in order; URLs expire in 3600s.
+2. `PUT` each 10MB slice of the file to its `partUrl` and save the `ETag` response header per part. A failed part can be retried alone — a network drop never restarts the whole file.
+3. `POST /api/media/multipart/complete` — body `{r2Key, uploadId, parts: [{partNumber, etag}], fileName, mimeType, sizeBytes, width?, height?, duration?}` → `{file}` (same media object as a normal upload; its `id` goes in `mediaFileIds`). Failed assembly auto-aborts the upload.
+
+- To cancel mid-flight: `POST /api/media/multipart/abort` — body `{r2Key, uploadId}` (frees stored parts)
+- 400 = disallowed type or too large; 429 = storage quota exceeded
 
 ## Bulk pattern
 

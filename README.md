@@ -17,6 +17,8 @@ Connect your AI assistant to [BulkPublish](https://bulkpublish.com) — schedule
 | **Quota** | 1 | Plan usage and limits |
 | **Queue** | 1 | Next optimal posting slot |
 
+Plus three REST-only endpoint groups documented in the skills (no MCP tools yet): **Channel Sets** (saved channel groups for one-click targeting, up to 50 per org), **RSS Autopost** (up to 20 feeds per org, polled every 15 min — new items become draft or auto-published posts), and **multipart media upload** (chunked 10MB parts with per-part retry — videos up to 1GB).
+
 **Supported platforms:** Facebook, Instagram, X/Twitter, TikTok, YouTube, Threads, Bluesky, Pinterest, Google Business Profile, LinkedIn, Mastodon, Reddit, Discord, Telegram
 
 ## Prerequisites
@@ -280,8 +282,8 @@ If you installed via the Claude Code plugin, you get these skills:
 | Platform Reference | `/bulkpublish:platform-reference` | All 14 platforms — post types, media rules, required fields, limits |
 | Schedule Post | `/bulkpublish:schedule-post` | Create and schedule posts with optimal timing |
 | Get Analytics | `/bulkpublish:get-analytics` | Pull performance reports and engagement data |
-| Manage Channels | `/bulkpublish:manage-channels` | View connected accounts and troubleshoot issues |
-| Bulk Publish | `/bulkpublish:bulk-publish` | Upload media and publish posts in batch |
+| Manage Channels | `/bulkpublish:manage-channels` | View connected accounts, channel sets, and troubleshoot issues |
+| Bulk Publish | `/bulkpublish:bulk-publish` | Upload media (multipart for videos up to 1GB) and publish posts in batch |
 | Check Quota | `/bulkpublish:check-quota` | View plan limits and current usage |
 
 ---
@@ -300,6 +302,8 @@ Once connected, just ask your AI assistant in natural language:
 "Which of my channels have connection issues?"
 
 "How many posts do I have left on my plan today?"
+
+"Set up my blog's RSS feed so new articles land as drafts for my LinkedIn and X channels"
 ```
 
 ---
@@ -335,6 +339,9 @@ Once connected, just ask your AI assistant in natural language:
 
 **Interactive UI (MCP Apps):**
 `compose_post`, `view_analytics`, `view_posts`, `view_channels`, `view_media`, `view_quota`
+
+**REST API only (no MCP tool yet — the skills document these endpoints):**
+Channel Sets (`/api/channel-sets`), RSS Autopost (`/api/rss-feeds`), multipart media upload (`/api/media/multipart/create|complete|abort`)
 
 </details>
 
