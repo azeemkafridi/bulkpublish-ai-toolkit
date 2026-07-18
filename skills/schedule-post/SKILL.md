@@ -79,13 +79,13 @@ This publishes the post AS a story. The separate `publish_story` tool is only fo
 
 ## RSS Autopost (REST API)
 
-Auto-create posts from an RSS/Atom feed — BulkPublish polls each feed every 15 minutes and turns new items into posts. No MCP tool yet — call the REST API directly (`Authorization: Bearer bp_your_key`, base `https://app.bulkpublish.com`).
+Auto-create posts from an RSS/Atom feed — BulkPublish polls each feed every 15 minutes and turns new items into posts. MCP tools `list/create/update/delete_rss_feed` exist (mcp-server ≥1.5.0); the REST API is `Authorization: Bearer bp_your_key`, base `https://app.bulkpublish.com`.
 
 | Endpoint | Use for |
 |---|---|
 | `GET /api/rss-feeds` | List feeds (ordered by name) |
-| `POST /api/rss-feeds` | Create — body `{name, feedUrl, channelIds, mode?}` |
-| `PUT /api/rss-feeds/{id}` | Partial update — body `{name?, feedUrl?, channelIds?, mode?, enabled?}` |
+| `POST /api/rss-feeds` | Create — body `{name, feedUrl, channelIds, mode?, fieldMapping?}` |
+| `PUT /api/rss-feeds/{id}` | Partial update — body `{name?, feedUrl?, channelIds?, mode?, fieldMapping?, enabled?}` |
 | `DELETE /api/rss-feeds/{id}` | Delete |
 
 - `mode` is `"draft"` or `"publish"`, **default `"draft"`** — draft: new feed items land as draft posts for review; publish: they are auto-published
@@ -94,6 +94,12 @@ Auto-create posts from an RSS/Atom feed — BulkPublish polls each feed every 15
 - Max **20 feeds per org** → 400 beyond that
 - **Changing `feedUrl` re-baselines the feed** (resets `lastCheckedAt`): only items newer than the change are posted — the old backlog is never flooded
 - Feed object includes `enabled`, `lastCheckedAt`, `lastError` for troubleshooting
+- **`fieldMapping`** (optional; `null` = default `{title}` + blank line + `{link}`, no media) controls how an item becomes a post:
+  - `template` — tokens `{title} {link} {description} {content} {author} {categories} {feedName}`; a line whose tokens all render empty is dropped (max 2000 chars)
+  - `mediaField` — `"none"` (default) / `"image"` / `"video"` / `"auto"` (video, else image); the enclosure is re-hosted to the org media library. Platforms whose default post type **requires media** (Instagram, TikTok, YouTube, Pinterest) are skipped for items without a usable enclosure — the reason lands in the activity log
+  - `stripHtml` (default `true`); `truncate` — `"smart"` (default, word-boundary trim keeping a trailing link line) / `"hard"` / `"skip"` (drop that channel); `hashtags` (max 500 chars, appended)
+  - `channelOverrides` — per-channel **text** overrides keyed by channel id *string* (`template`, `hashtags`, `stripHtml`, `truncate`); `mediaField` cannot be overridden per channel, and same-platform channels share one rendered text (written to the post's `platformContent`)
+  - On `PUT`, send `"fieldMapping": null` to clear back to the default
 
 ## Common mistakes
 

@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.0.4 (2026-07-18)
+
+- **RSS field mapping** documented in `schedule-post`: the new `fieldMapping` field on `POST/PUT /api/rss-feeds` (caption template with item tokens, `mediaField` enclosure selection with media-required-platform skipping, `stripHtml`, `truncate` smart/hard/skip, `hashtags`, per-channel `channelOverrides`; `null` clears to the default).
+- Corrected stale note: RSS autopost now HAS MCP tools (`list/create/update/delete_rss_feed`, mcp-server ≥1.5.0).
+
 ## 1.0.3 (2026-07-17)
 
 - Documented three new REST endpoint groups (no MCP tools yet) across skills + README:
