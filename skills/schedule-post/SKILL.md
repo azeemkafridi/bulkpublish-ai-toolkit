@@ -95,7 +95,7 @@ Auto-create posts from an RSS/Atom feed — BulkPublish polls each feed every 15
 - **Changing `feedUrl` re-baselines the feed** (resets `lastCheckedAt`): only items newer than the change are posted — the old backlog is never flooded
 - Feed object includes `enabled`, `lastCheckedAt`, `lastError` for troubleshooting
 - **`fieldMapping`** (optional; `null` = default `{title}` + blank line + `{link}`, no media) controls how an item becomes a post:
-  - `template` — tokens `{title} {link} {description} {content} {author} {categories} {feedName}`; a line whose tokens all render empty is dropped (max 2000 chars)
+  - `template` — tokens `{title} {link} {description} {content} {author} {categories} {feedName}` plus any extra leaf field on the feed item as `{fieldName}`; a line whose tokens all render empty is dropped (max 2000 chars)
   - `mediaField` — `"none"` (default) / `"image"` / `"video"` / `"auto"` (video, else image); the enclosure is re-hosted to the org media library. Platforms whose default post type **requires media** (Instagram, TikTok, YouTube, Pinterest) are skipped for items without a usable enclosure — the reason lands in the activity log
   - `stripHtml` (default `true`); `truncate` — `"smart"` (default, word-boundary trim keeping a trailing link line) / `"hard"` / `"skip"` (drop that channel); `hashtags` (max 500 chars, appended)
   - `channelOverrides` — per-channel **text** overrides keyed by channel id *string* (`template`, `hashtags`, `stripHtml`, `truncate`); `mediaField` cannot be overridden per channel, and same-platform channels share one rendered text (written to the post's `platformContent`)
