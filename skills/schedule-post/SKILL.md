@@ -20,7 +20,14 @@ postTypeOverrides (object)        — per-platform format: {"instagram": "reel",
 postFormat     ("post"|"video"|"reel"|"story"|"carousel"|"thread") — "thread" requires threadParts
 threadParts    (array)            — [{content: string, mediaFileIds?: number[]}], min 2 parts
 firstComment   (string)           — auto-reply after publishing
+requestApproval (boolean)         — default false; hold a scheduled post for team
+                                    approval (approvalStatus becomes "pending")
 ```
+
+Every post object returned by the API also carries the read-only approval fields
+`approvalStatus` (`"none"` default | `"pending"` | `"approved"` | `"rejected"`),
+`approvedBy` (string|null), `approvedAt` (date-time|null) and `rejectionReason`
+(string|null). See "Team approval" below.
 
 ## Post type overrides
 
@@ -35,10 +42,42 @@ firstComment   (string)           — auto-reply after publishing
 | Bluesky | `thread` |
 | Mastodon | `thread` |
 
+## Team approval
+
+`approvalStatus` is **orthogonal to `status`**: the scheduler skips `pending` and
+`rejected` posts even when they are scheduled and overdue. Default is `"none"`.
+
+- **Requesting approval** — pass `requestApproval: true` on `create_post` or
+  `update_post` (default `false`) to hold a scheduled post for team approval;
+  `approvalStatus` becomes `"pending"`. For API keys belonging to members whose
+  role lacks `post:publish` (contributors), this is **forced server-side
+  regardless of the flag** — their scheduled posts always land in the approval
+  queue. Never tell such a user their post was scheduled: check the returned
+  `approvalStatus` and say it is awaiting approval.
+- **The approval queue** — `list_posts` with `approvalStatus: "pending"` (the
+  filter accepts `none` | `pending` | `approved` | `rejected`), or
+  `GET /api/posts?approvalStatus=pending`.
+- **Approving** — `approve_post` (postId), i.e. `POST /api/posts/{id}/approve`,
+  no body. Requires a role with `post:approve` (owner, admin, approver).
+  Releases the post: it publishes at its scheduled time, or immediately if that
+  time has already passed. The author is notified in-app.
+- **Rejecting** — `reject_post` (postId, optional `reason` max 2000 chars), i.e.
+  `POST /api/posts/{id}/reject`. The post returns to draft with `approvalStatus`
+  `"rejected"` and the reason; the author is notified and can edit + reschedule
+  to resubmit for approval.
+- Both return the post on 200; **400** if the post is not awaiting approval,
+  **403** if the role lacks `post:approve`, **404** if not found.
+- **`APPROVAL_REQUIRED`** — `publish_post` and `retry_post` return **403** with
+  error code `APPROVAL_REQUIRED` for roles without `post:publish`. Do not retry:
+  create/update the post with `requestApproval: true` and tell the user a
+  teammate has to approve it. Publishing a pending/rejected post *as an
+  approver* implicitly approves it.
+
 ## Publishing flow
 
 - **Draft then publish**: `create_post` (status: "draft") → `publish_post` (postId)
 - **Schedule for later**: `create_post` (status: "scheduled", scheduledAt: "2026-04-12T09:00:00Z")
+- **Schedule with review**: `create_post` (status: "scheduled", scheduledAt: ..., requestApproval: true) → a teammate calls `approve_post`
 - **Optimal timing**: call `get_queue_slot` (optionally pass `timezone`, default UTC) to get the best next slot. It returns `{suggestedTime, timezone}` — it does NOT take a channelId or date (any such args are ignored).
 - **Publish as story**: set `postTypeOverrides` to `"story"` for Facebook/Instagram — publishes directly as a story, no separate call needed
 - **Re-publish existing post as story**: use `publish_story` (postId, platform) — for posts already created as regular posts
@@ -111,4 +150,12 @@ Auto-create posts from an RSS/Atom feed — BulkPublish polls each feed every 15
 - **Do NOT send image-only posts to YouTube or TikTok** — they will fail
 - **Instagram defaults to `feed_photo`** — set `postTypeOverrides.instagram` to `reel` or `feed_video` for video
 - **Pinterest needs a board ID** — set via `platformSpecific.pinterest.boardId` or it tries to auto-create one
+- **Never assume a scheduled post will go out** — if the response has
+  `approvalStatus: "pending"`, it is held until someone approves it. Report that,
+  not "scheduled".
+- **`requestApproval` defaults to `false`** and `approvalStatus` defaults to
+  `"none"` — only set the flag when the user asks for review, but always read the
+  response back because contributors get it forced on.
+- **Do not call `publish_post` again after a 403 `APPROVAL_REQUIRED`** — the role
+  cannot publish; submit for approval instead.
 - **Content char limits** are enforced per-platform — use `platformContent` for shorter overrides on Pinterest (500), Bluesky (300), etc.

@@ -4,11 +4,11 @@ Connect your AI assistant to [BulkPublish](https://bulkpublish.com) — schedule
 
 ## What You Get
 
-**37 MCP tools** covering the full BulkPublish API, including interactive MCP Apps widgets:
+**39 MCP tools** covering the full BulkPublish API, including interactive MCP Apps widgets:
 
 | Category | Tools | Examples |
 |---|---|---|
-| **Posts** | 10 | Create, schedule, publish, retry, delete, bulk actions, metrics |
+| **Posts** | 12 | Create, schedule, publish, retry, delete, approve, reject, bulk actions, metrics |
 | **Channels** | 4 | List accounts, health check, platform options, @mention search |
 | **Media** | 4 | Upload (URL), list, get, delete |
 | **Labels** | 4 | Create, list, update, delete |
@@ -18,6 +18,8 @@ Connect your AI assistant to [BulkPublish](https://bulkpublish.com) — schedule
 | **Queue** | 1 | Next optimal posting slot |
 
 Plus three REST-only endpoint groups documented in the skills (no MCP tools yet): **Channel Sets** (saved channel groups for one-click targeting, up to 50 per org), **RSS Autopost** (up to 20 feeds per org, polled every 15 min — new items become draft or auto-published posts), and **multipart media upload** (chunked 10MB parts with per-part retry — videos up to 1GB).
+
+**Team approval:** posts carry an `approvalStatus` (`none` default | `pending` | `approved` | `rejected`) that is separate from `status` — the scheduler never publishes a pending or rejected post. Pass `requestApproval: true` (default `false`) when creating or updating a post to hold it for review; it is forced on for API keys whose role lacks `post:publish` (contributors), who also get `403 APPROVAL_REQUIRED` from publish/retry. Owners, admins and approvers release posts with `approve_post` / `reject_post`.
 
 **Supported platforms:** Facebook, Instagram, X/Twitter, TikTok, YouTube, Threads, Bluesky, Pinterest, Google Business Profile, LinkedIn, Mastodon, Reddit, Discord, Telegram
 
@@ -280,7 +282,7 @@ If you installed via the Claude Code plugin, you get these skills:
 | Skill | Command | Description |
 |---|---|---|
 | Platform Reference | `/bulkpublish:platform-reference` | All 14 platforms — post types, media rules, required fields, limits |
-| Schedule Post | `/bulkpublish:schedule-post` | Create and schedule posts with optimal timing |
+| Schedule Post | `/bulkpublish:schedule-post` | Create and schedule posts with optimal timing, incl. the team approval flow |
 | Get Analytics | `/bulkpublish:get-analytics` | Pull performance reports and engagement data |
 | Manage Channels | `/bulkpublish:manage-channels` | View connected accounts, channel sets, and troubleshoot issues |
 | Bulk Publish | `/bulkpublish:bulk-publish` | Upload media (multipart for videos up to 1GB) and publish posts in batch |
@@ -304,17 +306,21 @@ Once connected, just ask your AI assistant in natural language:
 "How many posts do I have left on my plan today?"
 
 "Set up my blog's RSS feed so new articles land as drafts for my LinkedIn and X channels"
+
+"Schedule this for Friday 9am but hold it for my editor to approve"
+
+"Show me everything waiting on approval, then approve the LinkedIn one"
 ```
 
 ---
 
-## All 37 MCP Tools
+## All 39 MCP Tools
 
 <details>
 <summary>Click to expand full tool list</summary>
 
 **Posts:**
-`create_post`, `update_post`, `delete_post`, `list_posts`, `get_post`, `publish_post`, `retry_post`, `get_post_metrics`, `publish_story`, `bulk_posts`
+`create_post`, `update_post`, `delete_post`, `list_posts`, `get_post`, `publish_post`, `retry_post`, `approve_post`, `reject_post`, `get_post_metrics`, `publish_story`, `bulk_posts`
 
 **Channels:**
 `list_channels`, `get_channel_health`, `get_channel_options`, `search_mentions`

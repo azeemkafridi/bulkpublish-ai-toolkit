@@ -12,11 +12,13 @@ description: Pull analytics, engagement metrics, and performance data from BulkP
 | `get_analytics` | Overall summary for a date range | `startDate`, `endDate` (ISO dates) |
 | `get_post_metrics` | Single post engagement | `postId` |
 | `get_quota_usage` | Plan limits and current usage | none |
-| `list_posts` | Find posts to analyze | `status`, `from`, `to`, `channelId`, `search` |
+| `list_posts` | Find posts to analyze | `status`, `approvalStatus`, `from`, `to`, `channelId`, `search` |
 
 ## get_analytics response shape
 
 Returns: total posts, status breakdown (any of the 7 post statuses: draft, scheduled, publishing, published, processing, failed, partial), per-platform counts, daily post counts for the range.
+
+Posts also carry `approvalStatus` (`none` default | `pending` | `approved` | `rejected`), which is separate from `status` — filter `list_posts` with `approvalStatus: "pending"` to see the team approval queue. Pending and rejected posts never publish on their own.
 
 ## get_post_metrics response shape
 

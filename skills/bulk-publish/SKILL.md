@@ -57,6 +57,16 @@ For videos over 100MB (up to **1GB**), use the chunked multipart flow. No MCP to
 - To cancel mid-flight: `POST /api/media/multipart/abort` — body `{r2Key, uploadId}` (frees stored parts)
 - 400 = disallowed type or too large; 429 = storage quota exceeded
 
+## Bulk actions and approval
+
+`bulk_posts` (`delete` | `retry` | `reschedule`) does not take `requestApproval`.
+A bulk `retry` on posts whose role lacks `post:publish` fails with **403
+`APPROVAL_REQUIRED`** — those posts must be submitted for team approval instead
+(create/update with `requestApproval: true`, then a teammate calls
+`approve_post`). Posts with `approvalStatus` `"pending"` or `"rejected"` are
+skipped by the scheduler even after a `reschedule`, until they are approved. See
+the `schedule-post` skill for the full approval flow.
+
 ## Bulk pattern
 
 For multiple files: call `upload_media` for each file, collect the returned IDs, then pass all IDs in `mediaFileIds` when creating the post.
