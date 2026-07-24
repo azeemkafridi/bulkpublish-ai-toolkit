@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.0 (2026-07-25)
+
+- **Tumblr support (15th platform).** `tumblr` added to the platform character-limit map (32,768) and display names. Tumblr posts accept up to 30 images **or** exactly one video — never both in the same post.
+- **Platform availability.** Platforms can now be disabled server-side. Post creation targeting a disabled platform returns 403 `PLATFORM_DISABLED` (distinct from `FEATURE_DISABLED`, which means the plan doesn't include it). Posts already scheduled when a platform is disabled are **held, not failed**, and publish automatically once it is re-enabled — no need to delete and recreate them. `GET /api/platforms` reports the current state of every platform.
+- Skills and README updated: platform count 14 -> 15, `tumblr` added to the channel platform-key list, and a full Tumblr entry in the platform reference (post type, media rules, and the channel-ID-keyed `platformSpecific.tumblr` options).
+
 ## 1.1.0 (2026-07-24)
 
 - **Team approval** documented across the skills and README:

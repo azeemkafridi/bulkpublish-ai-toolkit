@@ -1,6 +1,6 @@
 ---
 name: platform-reference
-description: Complete reference for all 14 BulkPublish platforms — post types, media requirements, required fields, character limits, and platformSpecific options. ALWAYS consult before creating posts.
+description: Complete reference for all 15 BulkPublish platforms — post types, media requirements, required fields, character limits, and platformSpecific options. ALWAYS consult before creating posts.
 ---
 
 # BulkPublish — Platform Reference
@@ -345,3 +345,31 @@ description: Complete reference for all 14 BulkPublish platforms — post types,
 | Title required | No |
 
 **Post types:** text message, photo, video, or media group. Posts to the connected channel/chat.
+
+---
+
+## Tumblr
+
+| Field | Value |
+|---|---|
+| Platform key | `tumblr` |
+| Char limit | 32,768 |
+| Title required | No |
+
+**Post types:** `post` — text, photo, or video post to a Tumblr blog.
+
+**Media specs:** up to 30 images (jpg/png/gif/webp, 20MB each), OR exactly one video (mp4/mov, 500MB). A video CANNOT be combined with images in the same post.
+
+**platformSpecific** — keyed by **channel ID**, because one Tumblr account can own several blogs:
+
+```json
+{"platformSpecific": {"tumblr": {"12": {"blogName": "myblog", "title": "Heading", "tags": ["art"], "link": "https://example.com"}}}}
+```
+
+| Option | Notes |
+|---|---|
+| `blogName` | Target blog. Defaults to the blog the channel was connected as. List options via `GET /api/channels/{id}/options`. |
+| `title` | Rendered as a heading above the body. |
+| `tags` | Array of strings, no leading `#`. Tags drive discovery on Tumblr more than on other networks. |
+| `link` | Appended as a link block. |
+| `sourceUrl` | Attribution URL stored as the post's source. |
