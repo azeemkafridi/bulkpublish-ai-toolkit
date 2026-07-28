@@ -22,7 +22,51 @@ Posts also carry `approvalStatus` (`none` default | `pending` | `approved` | `re
 
 ## get_post_metrics response shape
 
-Returns per-platform: likes, comments, shares, impressions, reach, clicks, saves. Metrics vary by platform — not all platforms report all fields.
+Returns per-platform: likes, comments, shares, impressions, reach, clicks, saves, videoViews, engagementRate.
+
+### Never report a 0 without checking `supportedMetrics` first
+
+Every platform entry carries two support fields:
+
+- `metricsSupported` — `false` when the platform has no per-post statistics API at all.
+- `supportedMetrics` — the list of metric keys that platform *can* populate.
+
+All metric columns are stored as integers defaulting to `0`, so a metric the
+platform never reports is indistinguishable from a real zero **unless you read
+`supportedMetrics`**. A key that is not in that list is **not a measurement** —
+say "not reported by <platform>" or show a dash. Reporting it as `0` tells the
+user their post got zero engagement when the platform simply has no such metric.
+
+| Platform | Reports | Never reports |
+|---|---|---|
+| X | impressions, likes, comments, shares | reach, saves, clicks, video views |
+| YouTube | impressions, video views, likes, comments | reach, shares, saves, clicks |
+| Instagram | impressions, reach, likes, comments, shares, saves | clicks, video views |
+| Facebook | likes, comments, shares + impressions, reach, clicks¹ | saves, video views |
+| LinkedIn (company pages) | impressions, reach, likes, comments, shares, clicks | saves, video views |
+| TikTok | impressions, video views, likes, comments, shares | reach, saves, clicks |
+| Threads | impressions, likes, comments, shares | reach, saves, clicks, video views |
+| Pinterest | impressions, clicks, saves, likes, comments, video views | reach |
+| Bluesky | likes, comments, shares, saves (bookmarks) | impressions, reach, clicks, video views |
+| Mastodon | likes, comments, shares | everything else |
+| Google Business, Reddit, Discord, Telegram, Tumblr | *nothing* | — |
+| LinkedIn personal profiles | *nothing* | — |
+
+¹ Facebook's impressions/reach/clicks come from Page Insights and need the
+`read_insights` permission. Without it they stay `0` — "may not be readable",
+which is neither a dash nor a trustworthy figure.
+
+`engagementRate` is derived from impressions, so it exists only where
+impressions do — it is always `0` for Bluesky and Mastodon.
+
+### Two more reasons a figure can legitimately be 0
+
+- **Not synced yet.** Figures come from a snapshot refreshed every 6 hours, not a
+  live read. A just-published post appears immediately with zeros.
+- **Metrics sync switched off.** X reads are billed, so per-post sync is opt-in
+  per channel and runs at most weekly. The engagement response lists affected
+  channels in `metricsDisabledChannels`; until the user enables it on the
+  Channels page, every X figure stays 0 and refreshing cannot change that.
 
 ## get_quota_usage response shape
 

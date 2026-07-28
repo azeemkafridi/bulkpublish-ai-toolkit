@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.3.0 (2026-07-28)
+
+- **Per-metric platform support in `get-analytics`.** Every platform entry of `get_post_metrics` now carries `metricsSupported` and `supportedMetrics`, and the engagement response adds `metricSupport` / `supportedTotals` / `partialTotals` / `conditionalMetrics`. All metric columns are stored as integers defaulting to `0`, so a metric a platform never reports was indistinguishable from a real zero — an agent reading the raw response would confidently tell the user "0 impressions" for a Bluesky post, which has no impressions metric at all. The skill now carries the full per-platform table and an explicit rule: **never report a 0 without checking `supportedMetrics` first.**
+- **`metricsDisabledChannels`** documented — X reads are billed, so its per-post sync is opt-in per channel and runs at most weekly. Until it is enabled on the Channels page every X figure stays 0 and refreshing cannot change it.
+- Documented the two other legitimate reasons a figure is 0: the 6-hourly snapshot has not run since publish, and Facebook's impressions/reach/clicks need the `read_insights` permission.
+- Server-side fixes reflected here: Pinterest now reports likes and comments (previously always 0), Threads post metrics now return at all, and Bluesky now reports saves via bookmarks.
+- Plugin description corrected: 14 -> 15 platforms (Tumblr, shipped in 1.2.0).
+
 ## 1.2.0 (2026-07-25)
 
 - **Tumblr support (15th platform).** `tumblr` added to the platform character-limit map (32,768) and display names. Tumblr posts accept up to 30 images **or** exactly one video — never both in the same post.
