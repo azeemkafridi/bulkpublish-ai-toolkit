@@ -168,6 +168,8 @@ description: Complete reference for all 15 BulkPublish platforms — post types,
 
 **Account types:** `personal` (member profile) or `organization` (company page). Both are connected in the dashboard and then used like any other channel — `list_channels` reports which via `accountType`.
 
+The two run on separate LinkedIn apps (company pages use the Community Management API, which LinkedIn requires to be the only product on its application), so they are **gated separately**. `list_platforms` reports company pages under `variants.organization`; the platform-level state covers personal profiles. Pages can be paused — no new page connections — while personal-profile posting is fully live. When a variant is what blocks a write, the 403 `PLATFORM_DISABLED` error carries an `accountType` field naming it.
+
 **platformSpecific options:**
 - `title` — article/video title
 - `description` — article description

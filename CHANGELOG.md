@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.1 (2026-07-29)
+
+- **LinkedIn company pages are gated separately from personal profiles.** `list_platforms` entries can now carry a `variants` object keyed by channel `accountType`; LinkedIn reports `variants.organization` for company pages, which run on a separate LinkedIn app (Community Management API) with its own review. Pages can be paused for new connections while personal-profile posting is fully live — an agent reading only the platform-level `state` would wrongly tell a user LinkedIn is unavailable, or wrongly offer a company-page connect that can only 403. When a variant blocks a write, the `PLATFORM_DISABLED` error carries an `accountType` naming it.
+
 ## 1.3.0 (2026-07-28)
 
 - **Per-metric platform support in `get-analytics`.** Every platform entry of `get_post_metrics` now carries `metricsSupported` and `supportedMetrics`, and the engagement response adds `metricSupport` / `supportedTotals` / `partialTotals` / `conditionalMetrics`. All metric columns are stored as integers defaulting to `0`, so a metric a platform never reports was indistinguishable from a real zero — an agent reading the raw response would confidently tell the user "0 impressions" for a Bluesky post, which has no impressions metric at all. The skill now carries the full per-platform table and an explicit rule: **never report a 0 without checking `supportedMetrics` first.**

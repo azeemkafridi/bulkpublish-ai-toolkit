@@ -50,6 +50,6 @@ Saved channel groups for one-click targeting. No MCP tool yet — call the REST 
 ## Notes
 
 - Channels can only be connected/reconnected via the web UI (OAuth) — not via API
-- LinkedIn channels are either a personal profile or a company page (`accountType`: `personal` / `organization`); both are connected in the dashboard and posted to like any other channel
+- LinkedIn channels are either a personal profile or a company page (`accountType`: `personal` / `organization`); both are connected in the dashboard and posted to like any other channel. They run on separate LinkedIn apps and are gated separately — `list_platforms` reports pages under `variants.organization`, so check that (not the platform-level state) before telling a user they can connect a company page
 - `search_mentions` works on X/Twitter and Bluesky only
 - Token "expired" means the user needs to reconnect at app.bulkpublish.com/channels
