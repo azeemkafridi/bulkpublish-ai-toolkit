@@ -24,6 +24,10 @@ Posts also carry `approvalStatus` (`none` default | `pending` | `approved` | `re
 
 Returns per-platform: likes, comments, shares, impressions, reach, clicks, saves, videoViews, engagementRate.
 
+Plus `linkClicks` (and `totals.linkClicks` / `totalLinkClicks`): clicks on
+bulkpubli.sh short links, measured by BulkPublish rather than reported by the
+platform.
+
 ### Never report a 0 without checking `supportedMetrics` first
 
 Every platform entry carries two support fields:
@@ -36,6 +40,20 @@ platform never reports is indistinguishable from a real zero **unless you read
 `supportedMetrics`**. A key that is not in that list is **not a measurement** —
 say "not reported by <platform>" or show a dash. Reporting it as `0` tells the
 user their post got zero engagement when the platform simply has no such metric.
+
+### `linkClicks` is the one metric every platform has
+
+`linkClicks` is measured by BulkPublish, not the platform, so it is populated
+even for the platforms in the "reports nothing" row below, and `supportedMetrics`
+always contains it. Two rules when reporting it:
+
+- **Never add it to `clicks`/`totalClicks`.** Those are the platform's own click
+  figures. One visit can register in both, so summing them double-counts.
+- **A 0 here is ambiguous in a specific way**: it means no tracked clicks, which
+  also happens when the organization has link tracking switched off, when the
+  post contained no links, or when shortening was skipped on that channel for
+  exceeding its character limit. Bot and link-preview traffic is excluded by
+  design. Say "no tracked link clicks" rather than "nobody clicked".
 
 | Platform | Reports | Never reports |
 |---|---|---|

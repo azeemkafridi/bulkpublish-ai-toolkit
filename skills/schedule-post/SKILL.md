@@ -22,7 +22,20 @@ threadParts    (array)            — [{content: string, mediaFileIds?: number[]
 firstComment   (string)           — auto-reply after publishing
 requestApproval (boolean)         — default false; hold a scheduled post for team
                                     approval (approvalStatus becomes "pending")
+linkTrackingOverride (boolean|null) — default null; per-post override for
+                                    bulkpubli.sh link tracking. true shortens the
+                                    post's links and counts clicks, false posts
+                                    them as written, null inherits the org setting
 ```
+
+`linkTrackingOverride` is tri-state, so **omit it unless the user actually asked
+for one behaviour or the other** — sending `false` is an explicit "post the links
+as written" and is not the same as leaving it unset. Shortening happens at
+publish time, per channel, and is **skipped** for any channel where the rewrite
+would push the post past that platform's character limit: a short URL is 28
+characters and can be longer than the link it replaces, so on X (280) or Bluesky
+(300) tracking may silently not apply. The post still publishes, with its
+original links.
 
 Every post object returned by the API also carries the read-only approval fields
 `approvalStatus` (`"none"` default | `"pending"` | `"approved"` | `"rejected"`),

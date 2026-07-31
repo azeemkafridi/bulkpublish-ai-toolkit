@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.0 (2026-08-01)
+
+- **Link tracking documented across the skills.** `schedule-post` gains `linkTrackingOverride` (tri-state, default `null`) with an explicit instruction to omit it unless the user asked for a behaviour — `false` is a real "post the links as written", not the same as unset. `get-analytics` gains `linkClicks` / `totalLinkClicks`, including the two rules that matter: never add them to the platform's own `clicks`, and read a 0 as "no tracked link clicks" rather than "nobody clicked", since it also covers tracking being off, the post having no links, or shortening being skipped for a channel's character limit.
+- README summarises both, alongside the note that shortening can silently not apply on X and Bluesky.
+
 ## 1.3.1 (2026-07-29)
 
 - **LinkedIn company pages are gated separately from personal profiles.** `list_platforms` entries can now carry a `variants` object keyed by channel `accountType`; LinkedIn reports `variants.organization` for company pages, which run on a separate LinkedIn app (Community Management API) with its own review. Pages can be paused for new connections while personal-profile posting is fully live — an agent reading only the platform-level `state` would wrongly tell a user LinkedIn is unavailable, or wrongly offer a company-page connect that can only 403. When a variant blocks a write, the `PLATFORM_DISABLED` error carries an `accountType` naming it.
