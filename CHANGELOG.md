@@ -3,6 +3,7 @@
 ## 1.4.1 (2026-08-08)
 
 - **platform-reference skill: `pinterest.coverImageUrl` is now optional.** The server falls back to an attached image, then the video's auto-extracted poster frame; publishing fails only when all three are missing.
+- **platform-reference skill: `reddit.thumbnailUrl` documented, optional.** Reddit video posts fall back to the video's auto-extracted poster frame when no thumbnail is set.
 
 ## 1.4.0 (2026-08-01)
 

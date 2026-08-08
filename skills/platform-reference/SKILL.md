@@ -321,6 +321,7 @@ The two run on separate LinkedIn apps (company pages use the Community Managemen
 - `url` — link URL for link posts
 - `flairId` / `flairText` — post flair
 - `nsfw` / `spoiler` — booleans
+- `thumbnailUrl` — thumbnail for video posts. Optional: when omitted the server uses the video's auto-extracted poster frame
 
 ---
 
