@@ -19,7 +19,14 @@ platformContent (object)          — per-platform text: {"x": "Short", "linkedi
 postTypeOverrides (object)        — per-platform format: {"instagram": "reel", "facebook": "story"}
 postFormat     ("post"|"video"|"reel"|"story"|"carousel"|"thread") — "thread" requires threadParts
 threadParts    (array)            — [{content: string, mediaFileIds?: number[]}], min 2 parts
-firstComment   (string)           — auto-reply after publishing
+platformSpecific (object)         — per-platform options; see the
+                                    platform-reference skill. Auto-reply after
+                                    publishing goes here as the top-level key
+                                    "_firstComment", NOT a firstComment param:
+                                    {"_firstComment": "Link in bio!"}
+                                    Unsupported on discord, pinterest, tiktok,
+                                    gmb and tumblr (recorded as failed; the main
+                                    post still publishes)
 requestApproval (boolean)         — default false; hold a scheduled post for team
                                     approval (approvalStatus becomes "pending")
 linkTrackingOverride (boolean|null) — default null; per-post override for
