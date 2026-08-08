@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.4.2 (2026-08-08)
+
+- **Corrects 1.4.1: `reddit.thumbnailUrl` is NOT optional.** The previous entry (and the skill) said Reddit video posts fall back to the video's auto-extracted poster frame. They do not — only the Pinterest half of that change shipped. `webapp/src/lib/platforms/reddit.ts` reads `thumbnailUrl` from `platformSpecific` and fails the publish when it is absent, so **Reddit video posts require it explicitly**. The skill now contrasts this with Pinterest's `coverImageUrl` so the two are not assumed to behave alike.
+- **platform-reference skill: Reddit options corrected against the handler.** `title` is **not** required (it defaults to the first line of `content`, truncated to 300 chars); `flairText`, `nsfw` and `spoiler` **do not exist** and were removed; `subreddit` accepts `r/webdev` and `/r/webdev`, not just the bare name; `type` was missing. `platformSpecific.reddit` is keyed by **channel ID** (like Tumblr), which the skill never said. Added the derived post-kind rules, the exactly-one-media-file limit, and the two publish gotchas: Reddit returns HTTP 200 on a rule rejection, and media submissions confirm asynchronously with a 20-second timeout after which a post is failed but may still have appeared — verify before retrying.
+- **platform-reference skill: Discord's required `channelId` documented.** The section listed no `platformSpecific` at all, so a post built from it would fail with "No Discord channel selected". Added that a connected Discord channel is an entire *server*, that the inner `channelId` is the Discord text-channel snowflake rather than the BulkPublish channel id, the 10 × 25MB attachment limit, and that publishing uses a global bot token — so failures are permission problems, never a reconnect issue. Dropped the mention of webhooks, which the server does not use.
+- **platform-reference skill: Telegram documented as taking no `platformSpecific` options.** Added the URL-fetch media caps (5MB images / 20MB video, well below Telegram's upload limits), that content is sent with no parse mode so Markdown is not rendered, and that text over the 1,024-character caption limit arrives as a second message rather than being truncated.
+
 ## 1.4.1 (2026-08-08)
 
 - **platform-reference skill: `pinterest.coverImageUrl` is now optional.** The server falls back to an attached image, then the video's auto-extracted poster frame; publishing fails only when all three are missing.

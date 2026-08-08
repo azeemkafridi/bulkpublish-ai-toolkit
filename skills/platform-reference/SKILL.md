@@ -310,18 +310,31 @@ The two run on separate LinkedIn apps (company pages use the Community Managemen
 |---|---|
 | Platform key | `reddit` |
 | Char limit | 40,000 (body) |
-| Title required | **YES** — `platformSpecific.reddit.title` |
-| Subreddit required | **YES** — `platformSpecific.reddit.subreddit` |
+| Title required | No — defaults to the first line of `content`, truncated to 300 chars |
+| Subreddit required | **YES** — `subreddit`, or one stored on the channel |
 
-**Post types:** text (self), link, image, and video posts depending on media/`platformSpecific.reddit.url`.
+**Post types:** the submission kind is **derived, never set directly** — image attached → image post, video attached → video post, `type: "link"` or `url` set → link post, otherwise a text (self) post.
 
-**platformSpecific options:**
-- `subreddit` — **REQUIRED**, target subreddit (without the `r/` prefix)
-- `title` — **REQUIRED**, post title
-- `url` — link URL for link posts
-- `flairId` / `flairText` — post flair
-- `nsfw` / `spoiler` — booleans
-- `thumbnailUrl` — thumbnail for video posts. Optional: when omitted the server uses the video's auto-extracted poster frame
+**Media specs:** exactly **one** file on a media post — one image (20MB, jpg/png/gif) OR one video (1GB, mp4/mov). Two images, or an image plus a video, fails validation.
+
+**platformSpecific** — keyed by **channel ID**, because each connected Reddit account commonly posts to a different subreddit. A flat object is also accepted and applies to every Reddit channel:
+
+```json
+{"platformSpecific": {"reddit": {"12": {"subreddit": "webdev", "title": "Show and tell"}}}}
+```
+
+| Option | Notes |
+|---|---|
+| `subreddit` | **REQUIRED.** `webdev`, `r/webdev` and `/r/webdev` are all accepted. Falls back to the subreddit stored on the channel. |
+| `title` | Optional — defaults to the first line of `content`, truncated to 300 chars. |
+| `type` | `"link"` forces a link submission. |
+| `url` | Destination URL for a link post; implies `type: "link"`. |
+| `flairId` | Link-flair id. List a subreddit's flairs via `GET /api/channels/{id}/options`. |
+| `thumbnailUrl` | **REQUIRED for video posts.** Reddit rejects a video submission without a poster image and there is **no** fallback to an attached image or the video's auto-extracted poster frame — unlike Pinterest's `coverImageUrl`. Omitting it fails the publish. |
+
+There is no `flairText`, `nsfw` or `spoiler` option — those are not read by the server.
+
+**Gotchas:** Reddit returns HTTP 200 even when a subreddit rule rejects the submission, so check the post's error message rather than assuming success. Media submissions confirm asynchronously; if Reddit does not confirm within 20 seconds the post is marked failed with a note that it may still have appeared — **verify on the subreddit before retrying**, or you risk a duplicate.
 
 ---
 
@@ -332,10 +345,23 @@ The two run on separate LinkedIn apps (company pages use the Community Managemen
 | Platform key | `discord` |
 | Char limit | 2,000 |
 | Title required | No |
+| Target channel required | **YES** — `channelId` |
 
-**Post types:** message with optional attachments (images/video). Posts to the connected channel/webhook.
+**Post types:** message with optional attachments (images/video), sent to a text channel of the connected server.
 
-**Media specs:** attachments accepted; overall payload subject to Discord's per-message upload limit.
+**Media specs:** up to **10 attachments**, 25MB each (Discord's limit for a non-boosted server). Images and video may be mixed.
+
+**platformSpecific** — keyed by **channel ID**. A connected Discord "channel" in BulkPublish is an entire **server** (guild), so the message still needs a destination channel inside it:
+
+```json
+{"platformSpecific": {"discord": {"12": {"channelId": "1090123456789012345"}}}}
+```
+
+| Option | Notes |
+|---|---|
+| `channelId` | **REQUIRED.** The target Discord *text channel* snowflake — **not** the BulkPublish channel id used as the outer key. List postable channels via `GET /api/channels/{id}/options`. |
+
+**Gotchas:** publishing uses a **global bot token**, not the per-user OAuth token. A failure is therefore never a re-authentication problem — reconnecting will not fix it and the channel is never flagged `needs_reconnect`. The real causes are permissions: the bot lacks access to the channel, cannot send messages there, or the channel was deleted.
 
 ---
 
@@ -347,7 +373,13 @@ The two run on separate LinkedIn apps (company pages use the Community Managemen
 | Char limit | 4,096 (text) / 1,024 (media caption) |
 | Title required | No |
 
-**Post types:** text message, photo, video, or media group. Posts to the connected channel/chat.
+**Post types:** text message, photo, video, or media group (up to 10 items), sent to the chat fixed when the channel was connected.
+
+**platformSpecific:** **none.** Telegram accepts no options — there is nothing to select per post. To publish to a second channel or group, connect it as a separate BulkPublish channel.
+
+**Media specs:** media is handed to Telegram as a **URL** rather than uploaded, and the Bot API caps download-by-URL far below its upload limits: **5MB** images (jpg/png/webp) and **20MB** video (mp4).
+
+**Gotchas:** content is sent as **plain text with no parse mode**, so `&`, `<` and `>` are safe but Markdown you write is **not rendered** (URLs still auto-link). When a post has media and text longer than 1,024 characters, the media is sent captionless and the full text follows as a **second message** — nothing is truncated, but it arrives as two messages.
 
 ---
 
