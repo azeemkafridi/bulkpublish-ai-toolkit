@@ -203,7 +203,7 @@ The two run on separate LinkedIn apps (company pages use the Community Managemen
 - `link` — destination URL
 - `boardId` — target board ID (get from `get_channel_options`)
 - `dominantColor` — hex color
-- `coverImageUrl` — video pin thumbnail
+- `coverImageUrl` — video pin cover image. Optional: when omitted the server uses an attached image, then the video's auto-extracted poster frame
 
 ---
 
