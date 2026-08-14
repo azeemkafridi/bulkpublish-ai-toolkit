@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.4.3 (2026-08-15)
+
+- **get-analytics skill: metric support matrix re-synced with the server's docs
+  audit.** Reddit reports likes/comments/shares and Discord reports
+  likes/comments — both were wrongly listed as reporting nothing; X now
+  reports `saves` (bookmarks). Only Google Business, Telegram and Tumblr report
+  no per-post metrics.
+
 ## 1.4.2 (2026-08-08)
 
 - **schedule-post skill: `firstComment` is not a real parameter.** The field list documented `firstComment (string)` as a top-level post param. No such field exists in the API or the MCP tools — an agent following this would pass an unknown key and get no first comment, silently. The auto-reply is `_firstComment` at the **top level of `platformSpecific`**. Also noted that it is unsupported on Discord, Pinterest, TikTok, Google Business and Tumblr, where the main post still publishes and the comment is recorded as failed.

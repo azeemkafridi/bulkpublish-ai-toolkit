@@ -57,7 +57,7 @@ always contains it. Two rules when reporting it:
 
 | Platform | Reports | Never reports |
 |---|---|---|
-| X | impressions, likes, comments, shares | reach, saves, clicks, video views |
+| X | impressions, likes, comments, shares, saves (bookmarks) | reach, clicks, video views |
 | YouTube | impressions, video views, likes, comments | reach, shares, saves, clicks |
 | Instagram | impressions, reach, likes, comments, shares, saves | clicks, video views |
 | Facebook | likes, comments, shares + impressions, reach, clicks¹ | saves, video views |
@@ -67,7 +67,9 @@ always contains it. Two rules when reporting it:
 | Pinterest | impressions, clicks, saves, likes, comments, video views | reach |
 | Bluesky | likes, comments, shares, saves (bookmarks) | impressions, reach, clicks, video views |
 | Mastodon | likes, comments, shares | everything else |
-| Google Business, Reddit, Discord, Telegram, Tumblr | *nothing* | — |
+| Reddit | likes (score), comments, shares (crossposts) | impressions, reach, saves, clicks, video views |
+| Discord | likes (reaction counts), comments (thread replies) | everything else |
+| Google Business, Telegram, Tumblr | *nothing* | — |
 | LinkedIn personal profiles | *nothing* | — |
 
 ¹ Facebook's impressions/reach/clicks come from Page Insights and need the
