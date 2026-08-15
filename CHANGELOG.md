@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.5.0 (2026-08-15)
+
+- **schedule-post skill: documented the new `unconfirmed` platform status and
+  `retry_post`'s optional `republish` flag.** `unconfirmed` is terminal — the
+  publish request may have reached the platform but its response was lost, so
+  the post may already be live; it is never auto-retried. `retry_post` on a
+  post with unconfirmed platforms and no failed ones returns 400 with code
+  `UNCONFIRMED_REQUIRES_REPUBLISH`; pass `republish: true` (default false)
+  only after the user has checked the account and confirmed the post is not
+  live — it can duplicate the post. Mirrors webapp `bedafa4`.
+
 ## 1.4.3 (2026-08-15)
 
 - **get-analytics skill: metric support matrix re-synced with the server's docs

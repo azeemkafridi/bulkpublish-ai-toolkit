@@ -99,6 +99,15 @@ Every post object returned by the API also carries the read-only approval fields
 - **Schedule for later**: `create_post` (status: "scheduled", scheduledAt: "2026-04-12T09:00:00Z")
 - **Schedule with review**: `create_post` (status: "scheduled", scheduledAt: ..., requestApproval: true) → a teammate calls `approve_post`
 - **Optimal timing**: call `get_queue_slot` (optionally pass `timezone`, default UTC) to get the best next slot. It returns `{suggestedTime, timezone}` — it does NOT take a channelId or date (any such args are ignored).
+- **Retry failures**: `retry_post` (postId, optional `republish`) re-queues the
+  post's `failed` platforms. A platform can also end in status `unconfirmed` —
+  terminal: the publish request may have reached the platform but its response
+  was lost, so the post **may already be live**; it is never auto-retried. If
+  the post has unconfirmed platforms and no failed ones, `retry_post` returns
+  **400** with code `UNCONFIRMED_REQUIRES_REPUBLISH` — ask the user to check
+  the account on the platform, and only pass `republish: true` (default false)
+  after they confirm the post is not live; it also retries the unconfirmed
+  platforms and **can duplicate the post**.
 - **Publish as story**: set `postTypeOverrides` to `"story"` for Facebook/Instagram — publishes directly as a story, no separate call needed
 - **Re-publish existing post as story**: use `publish_story` (postId, platform) — for posts already created as regular posts
 
