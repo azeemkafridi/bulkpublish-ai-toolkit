@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.5.1 (2026-08-17)
+
+- **The hosted MCP server is documented.** The ChatGPT section claimed
+  "BulkPublish does not currently host a remote MCP server" and redirected to
+  Zapier — `https://mcp.bulkpublish.com/mcp` has been live for a while, with
+  OAuth 2.1 (verified: `/.well-known/oauth-authorization-server` and
+  `/.well-known/oauth-protected-resource/mcp` both 200) plus `?key=` for hosts
+  without OAuth. Replaced with a "Hosted server" section covering both.
+- **Platform list corrected to the 14 that are actually connectable.** Reddit
+  was advertised while switched off pending Reddit API approval, and Tumblr —
+  which is live — was missing. Verified against `GET /api/platforms/public`.
+  The Reddit page in the platform-reference skill is kept but now carries an
+  "unavailable" note rather than reading as available.
+
 ## 1.5.0 (2026-08-15)
 
 - **schedule-post skill: documented the new `unconfirmed` platform status and

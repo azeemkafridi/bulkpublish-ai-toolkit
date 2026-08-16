@@ -306,6 +306,10 @@ The two run on separate LinkedIn apps (company pages use the Community Managemen
 
 ## Reddit
 
+> **Currently unavailable.** Reddit is implemented but switched off pending Reddit
+> API approval — it does not appear in `list_platforms` and connecting a Reddit
+> channel is refused. The reference below applies once it is re-enabled.
+
 | Field | Value |
 |---|---|
 | Platform key | `reddit` |

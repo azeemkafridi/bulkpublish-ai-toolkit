@@ -1,6 +1,6 @@
 # BulkPublish AI Toolkit
 
-Connect your AI assistant to [BulkPublish](https://bulkpublish.com) — schedule posts, manage channels, upload media, and track analytics across 15 social media platforms, all from your AI tool of choice.
+Connect your AI assistant to [BulkPublish](https://bulkpublish.com) — schedule posts, manage channels, upload media, and track analytics across 14 social media platforms, all from your AI tool of choice.
 
 ## What You Get
 
@@ -23,7 +23,7 @@ Plus three REST-only endpoint groups documented in the skills (no MCP tools yet)
 
 **Link tracking:** BulkPublish can rewrite a post's links to `bulkpubli.sh` short URLs and count the clicks — the only way to measure outbound clicks, since platform APIs do not report them (X dropped the field entirely). It is off by default and opt-in per organization; `linkTrackingOverride` (`true` | `false` | `null`, default `null`) overrides it per post. It is **tri-state — omit it unless the user asked**, because `false` is an explicit "post the links as written", not the same as inheriting. Clicks come back as `linkClicks` / `totalLinkClicks`, which are measured by us and therefore available on every platform, and are deliberately **not** part of `clicks`/`totalClicks` — one visit can register in both, so never add them together. Shortening is skipped on any channel where the rewrite would exceed that platform's character limit (a short URL is 28 characters and can be longer than the link it replaces), so tracking can silently not apply on X or Bluesky; the post still publishes with its original links.
 
-**Supported platforms:** Facebook, Instagram, X/Twitter, TikTok, YouTube, Threads, Bluesky, Pinterest, Google Business Profile, LinkedIn, Mastodon, Reddit, Discord, Telegram
+**Supported platforms:** Facebook, Instagram, X/Twitter, TikTok, YouTube, Threads, Bluesky, Pinterest, Google Business Profile, LinkedIn, Mastodon, Discord, Telegram, Tumblr
 
 ## Prerequisites
 
@@ -258,9 +258,26 @@ BULKPUBLISH_API_KEY = "bp_your_key_here"
 
 ---
 
-### ChatGPT (Remote MCP)
+### Hosted server (ChatGPT, claude.ai, and other web hosts)
 
-ChatGPT requires a remote HTTP MCP endpoint (no local stdio). BulkPublish does not currently host a remote MCP server. For ChatGPT integration, use the [BulkPublish Zapier integration](https://zapier.com/apps/bulkpublish) or the [REST API](https://app.bulkpublish.com/docs) directly.
+Web-based hosts can't spawn a local process, so they need a remote HTTP endpoint
+instead of the `npx` stdio setups above. BulkPublish hosts one:
+
+```
+https://mcp.bulkpublish.com/mcp
+```
+
+It serves the same tool suite as the stdio server over Streamable HTTP, and
+authenticates two ways:
+
+- **OAuth 2.1 (recommended).** Add the URL as a custom connector and the host
+  walks you through the consent screen, where you paste your `bp_` API key once.
+  No key ever lives in the connector's URL.
+- **Key in the URL,** for hosts that don't do OAuth:
+  `https://mcp.bulkpublish.com/mcp?key=bp_your_key_here`. Treat that URL as a
+  secret — anyone holding it holds your API key.
+
+Get a key at [app.bulkpublish.com/developer](https://app.bulkpublish.com/developer).
 
 ---
 
@@ -283,7 +300,7 @@ If you installed via the Claude Code plugin, you get these skills:
 
 | Skill | Command | Description |
 |---|---|---|
-| Platform Reference | `/bulkpublish:platform-reference` | All 15 platforms — post types, media rules, required fields, limits |
+| Platform Reference | `/bulkpublish:platform-reference` | All 14 platforms — post types, media rules, required fields, limits |
 | Schedule Post | `/bulkpublish:schedule-post` | Create and schedule posts with optimal timing, incl. the team approval flow |
 | Get Analytics | `/bulkpublish:get-analytics` | Pull performance reports and engagement data |
 | Manage Channels | `/bulkpublish:manage-channels` | View connected accounts, channel sets, and troubleshoot issues |
