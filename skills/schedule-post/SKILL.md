@@ -25,7 +25,7 @@ platformSpecific (object)         — per-platform options; see the
                                     "_firstComment", NOT a firstComment param:
                                     {"_firstComment": "Link in bio!"}
                                     Unsupported on discord, pinterest, tiktok,
-                                    gmb and tumblr (recorded as failed; the main
+                                    gmb, tumblr and snapchat (recorded as failed; the main
                                     post still publishes)
 requestApproval (boolean)         — default false; hold a scheduled post for team
                                     approval (approvalStatus becomes "pending")

@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.6.0 (2026-08-19)
+
+- **Snapchat support (16th platform).** Platform lists updated in the README,
+  plugin/marketplace descriptions, the channels platform-key list and the
+  platform reference, which gains a full Snapchat entry: post types `story`
+  (default), `saved_story`, `spotlight`; every post requires exactly ONE media
+  file (jpg/png image or mp4 video; Spotlight is video-only, 6-60s); plain
+  stories carry no text — the caption is only used as the Spotlight description
+  (160 chars) and as a saved-story title fallback. `platformSpecific.snapchat`
+  options: `title` (saved-story title, 45 chars), `locale` (Spotlight, default
+  `en_US`), `saveToProfile` (Spotlight, default true) — flat or keyed by
+  channel ID. Analytics matrix: Snapchat reports impressions, reach, likes,
+  comments, shares, clicks and video views; never saves. No first comments.
+
 ## 1.5.1 (2026-08-17)
 
 - **The hosted MCP server is documented.** The ChatGPT section claimed

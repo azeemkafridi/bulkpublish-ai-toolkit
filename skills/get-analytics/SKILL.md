@@ -69,6 +69,7 @@ always contains it. Two rules when reporting it:
 | Mastodon | likes, comments, shares | everything else |
 | Reddit | likes (score), comments, shares (crossposts) | impressions, reach, saves, clicks, video views |
 | Discord | likes (reaction counts), comments (thread replies) | everything else |
+| Snapchat | impressions, reach, likes, comments, shares, clicks, video views | saves |
 | Google Business, Telegram, Tumblr | *nothing* | — |
 | LinkedIn personal profiles | *nothing* | — |
 

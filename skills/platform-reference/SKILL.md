@@ -1,6 +1,6 @@
 ---
 name: platform-reference
-description: Complete reference for all 15 BulkPublish platforms — post types, media requirements, required fields, character limits, and platformSpecific options. ALWAYS consult before creating posts.
+description: Complete reference for all 16 BulkPublish platforms — post types, media requirements, required fields, character limits, and platformSpecific options. ALWAYS consult before creating posts.
 ---
 
 # BulkPublish — Platform Reference
@@ -412,3 +412,33 @@ There is no `flairText`, `nsfw` or `spoiler` option — those are not read by th
 | `tags` | Array of strings, no leading `#`. Tags drive discovery on Tumblr more than on other networks. |
 | `link` | Appended as a link block. |
 | `sourceUrl` | Attribution URL stored as the post's source. |
+
+---
+
+## Snapchat
+
+| Field | Value |
+|---|---|
+| Platform key | `snapchat` |
+| Char limit | 160 (Spotlight description only) |
+| Title required | No |
+
+**Post types:** `story` (default), `saved_story`, `spotlight`.
+
+**Media specs:** every Snapchat post requires exactly ONE media file — a jpg/png image or an mp4 video. Spotlight is **video-only**, 6-60 seconds.
+
+**Caption handling:** plain stories carry NO text — the caption is only used as the Spotlight description (160 chars) and as a saved-story title fallback.
+
+**platformSpecific** — a flat object applies to every Snapchat channel, or key options by **channel ID** (like Tumblr/Reddit):
+
+```json
+{"platformSpecific": {"snapchat": {"title": "My saved story", "locale": "en_US", "saveToProfile": true}}}
+```
+
+| Option | Notes |
+|---|---|
+| `title` | Saved-story title, max 45 chars. Falls back to the caption when omitted. |
+| `locale` | Spotlight only. Defaults to `en_US`. |
+| `saveToProfile` | Spotlight only. Defaults to `true`. |
+
+**Gotchas:** no first comments (`_firstComment` is unsupported and recorded as failed; the main post still publishes) and no comment reading/engagement.
