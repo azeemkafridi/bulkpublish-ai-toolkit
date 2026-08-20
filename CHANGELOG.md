@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.6.1 (2026-08-20)
+
+- **The tool list said 39; the server serves 51.** The count and the list in
+  the README missed `list_platforms`, the three multipart-upload tools, and the
+  channel-set and RSS-autopost tools, and still described channel sets, RSS and
+  multipart upload as REST-only with "no MCP tool yet" long after each one got
+  one. Counted from the server's own registrations this time, both the
+  `server.tool` calls and the `registerWidget` ones.
+
 ## 1.6.0 (2026-08-19)
 
 - **Snapchat support (16th platform).** Platform lists updated in the README,

@@ -4,7 +4,7 @@ Connect your AI assistant to [BulkPublish](https://bulkpublish.com) — schedule
 
 ## What You Get
 
-**39 MCP tools** covering the full BulkPublish API, including interactive MCP Apps widgets:
+**51 MCP tools** covering the full BulkPublish API, including interactive MCP Apps widgets:
 
 | Category | Tools | Examples |
 |---|---|---|
@@ -333,7 +333,7 @@ Once connected, just ask your AI assistant in natural language:
 
 ---
 
-## All 39 MCP Tools
+## All 51 MCP Tools
 
 <details>
 <summary>Click to expand full tool list</summary>
@@ -344,14 +344,23 @@ Once connected, just ask your AI assistant in natural language:
 **Channels:**
 `list_channels`, `get_channel_health`, `get_channel_options`, `search_mentions`
 
+**Platforms:**
+`list_platforms`
+
 **Media:**
-`upload_media`, `list_media`, `get_media`, `delete_media`, `create_media_upload`, `finalize_media_upload`
+`upload_media`, `list_media`, `get_media`, `delete_media`, `create_media_upload`, `finalize_media_upload`, `create_multipart_upload`, `complete_multipart_upload`, `abort_multipart_upload`
 
 **Labels:**
 `list_labels`, `create_label`, `update_label`, `delete_label`
 
 **Analytics:**
 `get_analytics`
+
+**Channel Sets:**
+`list_channel_sets`, `create_channel_set`, `update_channel_set`, `delete_channel_set`
+
+**RSS Autopost:**
+`list_rss_feeds`, `create_rss_feed`, `update_rss_feed`, `delete_rss_feed`
 
 **Schedules:**
 `list_schedules`, `create_schedule`, `update_schedule`, `delete_schedule`
@@ -364,9 +373,6 @@ Once connected, just ask your AI assistant in natural language:
 
 **Interactive UI (MCP Apps):**
 `compose_post`, `view_analytics`, `view_posts`, `view_channels`, `view_media`, `view_quota`
-
-**REST API only (no MCP tool yet — the skills document these endpoints):**
-Channel Sets (`/api/channel-sets`), RSS Autopost (`/api/rss-feeds`), multipart media upload (`/api/media/multipart/create|complete|abort`)
 
 </details>
 
