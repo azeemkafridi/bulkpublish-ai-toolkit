@@ -320,6 +320,8 @@ Once connected, just ask your AI assistant in natural language:
 
 "Upload these 5 images and schedule them as daily Instagram posts"
 
+"Use these reviewed TweetClaw X/Twitter search notes to draft a BulkPublish post for our X and LinkedIn channels"
+
 "Which of my channels have connection issues?"
 
 "How many posts do I have left on my plan today?"

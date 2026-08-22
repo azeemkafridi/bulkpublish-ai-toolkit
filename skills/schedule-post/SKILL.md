@@ -111,6 +111,21 @@ Every post object returned by the API also carries the read-only approval fields
 - **Publish as story**: set `postTypeOverrides` to `"story"` for Facebook/Instagram — publishes directly as a story, no separate call needed
 - **Re-publish existing post as story**: use `publish_story` (postId, platform) — for posts already created as regular posts
 
+## Optional X/Twitter research intake
+
+For X/Twitter posts that should respond to public conversations or product
+feedback, collect the evidence before calling `create_post`.
+
+- In OpenClaw, users can install TweetClaw separately:
+  `openclaw plugins install npm:@xquik/tweetclaw@1.6.31`
+- Use TweetClaw to search tweets, search replies, export followers, or monitor
+  keywords, then summarize only the reviewed public evidence.
+- Keep BulkPublish responsible for the draft, schedule, publish, retry, and
+  analytics steps. Treat TweetClaw as source context, not as a BulkPublish
+  channel.
+- Start with `status: "draft"` or `status: "scheduled"` and get explicit user
+  approval before calling `publish_post`.
+
 ## Stories vs postTypeOverrides
 
 To publish as a story, use `postTypeOverrides` at creation time:
