@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.6.2 (2026-08-22)
+
+### Changed
+
+- Platform count normalized to 15 across the README, the plugin manifest and the
+  marketplace entry (they claimed 14 and 16 in different places). Snapchat is
+  live; Reddit is excluded from the count while its API approval is pending.
+
 ## 1.6.1 (2026-08-20)
 
 - **The tool list said 39; the server serves 51.** The count and the list in
