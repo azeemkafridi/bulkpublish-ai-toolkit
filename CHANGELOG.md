@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.6.4 (2026-09-09)
+
+### Changed
+
+- **`threadParts` documented as length-checked per part.** The reference said
+  only "min 2 parts", so an agent had no reason to expect a long part 3 to be
+  refused. It now says every part is measured against every target platform's
+  limit, which is what the API enforces.
+
 ## 1.6.3 (2026-09-09)
 
 ### Changed
