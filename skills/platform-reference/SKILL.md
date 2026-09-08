@@ -33,7 +33,14 @@ description: Complete reference for all 16 BulkPublish platforms — post types,
 
 **Media specs:** Image max 10MB (jpg/png/gif/webp). Video max 2GB (mp4/mov).
 
-**platformSpecific options:** `linkPreview.url`
+**platformSpecific options:**
+- `linkPreview.url`
+- `shareToStory` — boolean, also post it as a story
+- `thumbnailUrl` — string, cover image URL for a video or Reel. Facebook only
+  accepts a cover once the video exists, so it is applied after the video
+  publishes and lands a moment after the post; a cover that cannot be fetched or
+  that Facebook rejects leaves the video published with Facebook's own chosen
+  frame rather than failing the post. Omit to let Facebook choose
 
 ---
 
@@ -60,8 +67,11 @@ description: Complete reference for all 16 BulkPublish platforms — post types,
 
 **platformSpecific options:**
 - `collaborators` — string or array of collaborator usernames
-- `trialReel` — boolean, trial reel (graduates based on performance)
-- `thumbnailTimestamp` — number (seconds), video thumbnail offset
+- `trialReel` — boolean, trial reel shown to non-followers first. Only takes effect with `postTypeOverrides.instagram: "reel"`; ignored on `feed_video`
+- `graduationStrategy` — `"manual"` (default) or `"auto"`; ignored unless `trialReel` is true
+- `shareToStory` — boolean, also post it as a story
+- `thumbnailTimestamp` — number (seconds into the video) for the cover frame. Applies to `reel` AND `feed_video`. Ignored when `coverUrl` is also set
+- `coverUrl` — string, cover image URL for a video or Reel. Instagram accepts a cover image or a cover moment, never both, so this wins over `thumbnailTimestamp`
 
 **IMPORTANT:** If you have video and don't set `postTypeOverrides.instagram`, it defaults to `feed_photo` and FAILS. Always set to `reel` or `feed_video` for video.
 
@@ -141,7 +151,7 @@ description: Complete reference for all 16 BulkPublish platforms — post types,
 - `disableStitch` — boolean
 - `disableComment` — boolean
 - `isAigc` — boolean (AI-generated content disclosure)
-- `thumbnailTimestamp` — number (seconds)
+- `thumbnailTimestamp` — number (seconds into the video) for the cover frame
 
 **IMPORTANT:** TikTok ONLY accepts video (or images for slideshow). Default privacy is `SELF_ONLY` — set to `PUBLIC` for visibility.
 

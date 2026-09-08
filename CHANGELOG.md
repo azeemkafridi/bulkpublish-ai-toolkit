@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.6.3 (2026-09-09)
+
+### Changed
+
+- **Instagram `trialReel` documented as Reel-only.** The platform reference
+  listed it as a plain boolean, so an agent would happily set it alongside a
+  `feed_video` post type, where it has never had any effect. It now says the
+  field needs `postTypeOverrides.instagram: "reel"`, and `graduationStrategy`
+  is listed with its default and its dependency on `trialReel`.
+- **Facebook `shareToStory` and `thumbnailUrl` documented.** Neither was in the
+  reference. `thumbnailUrl` is the cover for a video or Reel; Facebook only
+  accepts a cover once the video exists, so it is applied after the video
+  publishes and lands a moment after the post, and a cover Facebook rejects
+  leaves the video up with Facebook's own frame rather than failing the post.
+
 ## 1.6.2 (2026-08-22)
 
 ### Changed
