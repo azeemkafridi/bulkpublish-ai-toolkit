@@ -66,7 +66,7 @@ description: Complete reference for all 16 BulkPublish platforms — post types,
 **Media specs:** Image max 8MB (jpg/jpeg only). Video max 1GB (mp4/mov).
 
 **platformSpecific options:**
-- `collaborators` — string or array of collaborator usernames
+- `collaborators` — string (comma-separated) or array of usernames, without a leading `@`. Tagged as co-authors. Post types `feed_photo`, `feed_video`, `reel` and `carousel`; ignored on `story`
 - `trialReel` — boolean, trial reel shown to non-followers first. Only takes effect with `postTypeOverrides.instagram: "reel"`; ignored on `feed_video`
 - `graduationStrategy` — `"manual"` (default) or `"auto"`; ignored unless `trialReel` is true
 - `shareToStory` — boolean, also post it as a story
