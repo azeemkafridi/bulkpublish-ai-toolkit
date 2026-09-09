@@ -4,20 +4,21 @@ Connect your AI assistant to [BulkPublish](https://bulkpublish.com) — schedule
 
 ## What You Get
 
-**51 MCP tools** covering the full BulkPublish API, including interactive MCP Apps widgets:
+**72 MCP tools** in the local server (`npx @bulkpublish/mcp-server`), including interactive MCP Apps widgets. The hosted server at `https://mcp.bulkpublish.com/mcp` (OAuth 2.1, used by the Claude and ChatGPT directories) serves a 20-tool `core` profile — channels, posts, media, analytics and the interactive panels — and `BULKPUBLISH_TOOL_PROFILE=core|full` switches either.
 
-| Category | Tools | Examples |
+| Category | Tools (full profile) | Examples |
 |---|---|---|
-| **Posts** | 12 | Create, schedule, publish, retry, delete, approve, reject, bulk actions, metrics |
-| **Channels** | 4 | List accounts, health check, platform options, @mention search |
-| **Media** | 4 | Upload (URL), list, get, delete |
-| **Labels** | 4 | Create, list, update, delete |
-| **Schedules** | 4 | Create recurring schedules, update, list, delete |
+| **Posts** | 13 | Create, update, get, list, publish, retry, delete, approve, reject, story, bulk actions, metrics, queue slot |
+| **Channels** | 5 | List accounts, platforms, health check, platform options, @mention search |
+| **Media** | 10 | Upload (URL/file), list, get, alt text, delete, presigned and chunked uploads |
 | **Analytics** | 1 | Summary by date range with per-platform breakdown |
+| **Labels, hashtag groups, templates, calendar notes** | 16 | Create, list, update, delete each |
+| **Client review & connect links** | 8 | Share/unshare a post, batch review links, client connect links |
+| **Schedules, channel sets, RSS autopost** | 12 | Create, list, update, delete each |
 | **Quota** | 1 | Plan usage and limits |
-| **Queue** | 1 | Next optimal posting slot |
+| **Interactive panels** | 6 | Composer, posts, channels, media, analytics, quota |
 
-Plus three REST-only endpoint groups documented in the skills (no MCP tools yet): **Channel Sets** (saved channel groups for one-click targeting, up to 50 per org), **RSS Autopost** (up to 20 feeds per org, polled every 15 min — new items become draft or auto-published posts), and **multipart media upload** (chunked 10MB parts with per-part retry — videos up to 1GB).
+Every tool carries a title and explicit `readOnlyHint` / `destructiveHint` / `idempotentHint` / `openWorldHint` values.
 
 **Team approval:** posts carry an `approvalStatus` (`none` default | `pending` | `approved` | `rejected`) that is separate from `status` — the scheduler never publishes a pending or rejected post. Pass `requestApproval: true` (default `false`) when creating or updating a post to hold it for review; it is forced on for API keys whose role lacks `post:publish` (contributors), who also get `403 APPROVAL_REQUIRED` from publish/retry. Owners, admins and approvers release posts with `approve_post` / `reject_post`.
 
