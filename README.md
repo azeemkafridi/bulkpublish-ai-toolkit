@@ -88,6 +88,15 @@ Then set your API key:
 export BULKPUBLISH_API_KEY=bp_your_key_here
 ```
 
+**Option D — hosted server, no key on disk (recommended for MCP-only use):**
+
+```bash
+claude mcp add --transport http bulkpublish https://mcp.bulkpublish.com/mcp
+```
+
+Claude Code opens the sign-in when you first use a tool. The token belongs to
+that client alone and you can revoke it from your account at any time.
+
 ---
 
 ### Claude Desktop
@@ -136,6 +145,18 @@ npx skills add azeemkafridi/bulkpublish-ai-toolkit -a cursor
 }
 ```
 
+**Option C — hosted server, no key on disk.** `.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "bulkpublish": {
+      "url": "https://mcp.bulkpublish.com/mcp"
+    }
+  }
+}
+```
+
 ---
 
 ### Windsurf
@@ -170,6 +191,19 @@ export BULKPUBLISH_API_KEY=bp_your_key_here
 
 Or hardcode it directly in the `env` block above.
 
+**Option C — hosted server, no key on disk.** Windsurf uses `serverUrl` for
+remote servers, not `url`. In `~/.codeium/windsurf/mcp_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "bulkpublish": {
+      "serverUrl": "https://mcp.bulkpublish.com/mcp"
+    }
+  }
+}
+```
+
 ---
 
 ### VS Code (GitHub Copilot)
@@ -193,6 +227,20 @@ npx skills add azeemkafridi/bulkpublish-ai-toolkit -a github-copilot
           "BULKPUBLISH_API_KEY": "bp_your_key_here"
         }
       }
+    }
+  }
+}
+```
+
+**Option C — hosted server, no key on disk.** VS Code's key is `servers`, not
+`mcpServers`. In `.vscode/mcp.json`:
+
+```json
+{
+  "servers": {
+    "bulkpublish": {
+      "type": "http",
+      "url": "https://mcp.bulkpublish.com/mcp"
     }
   }
 }
@@ -230,6 +278,26 @@ Set your key:
 export BULKPUBLISH_API_KEY=bp_your_key_here
 ```
 
+**Option C — hosted server, no key on disk:**
+
+```bash
+gemini mcp add --transport http bulkpublish https://mcp.bulkpublish.com/mcp
+```
+
+Editing `~/.gemini/settings.json` by hand works too, but the key for a
+streamable HTTP server is `httpUrl`. Plain `url` means SSE and will not
+connect:
+
+```json
+{
+  "mcpServers": {
+    "bulkpublish": {
+      "httpUrl": "https://mcp.bulkpublish.com/mcp"
+    }
+  }
+}
+```
+
 ---
 
 ### OpenAI Codex CLI
@@ -257,6 +325,14 @@ args = ["-y", "@bulkpublish/mcp-server"]
 BULKPUBLISH_API_KEY = "bp_your_key_here"
 ```
 
+**Option D — hosted server, no key on disk.** `codex mcp add` covers stdio
+servers only, so this one is edited into `~/.codex/config.toml`:
+
+```toml
+[mcp_servers.bulkpublish]
+url = "https://mcp.bulkpublish.com/mcp"
+```
+
 ---
 
 ### Hosted server (ChatGPT, claude.ai, and other web hosts)
@@ -279,6 +355,66 @@ authenticates two ways:
   secret — anyone holding it holds your API key.
 
 Get a key at [app.bulkpublish.com/developer](https://app.bulkpublish.com/developer).
+
+---
+
+### Antigravity
+
+Antigravity accepts only `serverUrl` for a remote server. Its own docs are
+explicit that `url` and `httpUrl` are not supported, so the shape that works
+in Cursor fails here silently. Edit `~/.gemini/config/mcp_config.json` (or
+`.agents/mcp_config.json` in a workspace):
+
+```json
+{
+  "mcpServers": {
+    "bulkpublish": {
+      "serverUrl": "https://mcp.bulkpublish.com/mcp"
+    }
+  }
+}
+```
+
+---
+
+### Cline
+
+Set `type` explicitly rather than leaving Cline to infer the transport. In
+`cline_mcp_settings.json`:
+
+```json
+{
+  "mcpServers": {
+    "bulkpublish": {
+      "type": "streamableHttp",
+      "url": "https://mcp.bulkpublish.com/mcp"
+    }
+  }
+}
+```
+
+---
+
+### Warp
+
+Warp's dialog takes the server object on its own, with no `mcpServers`
+wrapper around it. Open **MCP servers > + Add** and paste:
+
+```json
+{
+  "bulkpublish": {
+    "url": "https://mcp.bulkpublish.com/mcp"
+  }
+}
+```
+
+---
+
+### Grok
+
+No config file. Open **grok.com/connectors > New connector > Custom**, enter
+`https://mcp.bulkpublish.com/mcp`, and sign in when prompted. Grok
+requires a publicly reachable URL, which the hosted server is.
 
 ---
 
@@ -310,6 +446,41 @@ If you installed via the Claude Code plugin, you get these skills:
 
 ---
 
+## Prompts to Start With
+
+Paste one of these once the server is connected. Each uses only what the
+hosted `core` profile can do, so the assistant is never left guessing.
+Replace anything in square brackets.
+
+**See what is connected**
+> Show me my BulkPublish channels, then list everything scheduled on them for the next seven days. Tell me which channels have nothing queued.
+
+**Draft one post and queue it**
+> Write a LinkedIn post about [your topic]. Keep to my usual voice: [describe it in a line]. Show me the draft first, and once I say yes, schedule it in BulkPublish to the next free slot in my queue.
+
+**Turn a link into posts**
+> Read [paste a URL] and turn it into one post for each of my connected BulkPublish channels, adapted to what works on each network rather than the same text everywhere. Schedule them for next Tuesday morning. Show me all of them before you schedule anything.
+
+**Plan a week in one pass**
+> Here are five things I want to post about this week: [list them]. Create a BulkPublish post for each, spread across the free slots in my queue so nothing goes out back to back, and show me the finished week when you are done.
+
+**Post an image with caption options**
+> Upload [file path, or attach the image] to my BulkPublish media library, then write three caption options for Instagram, each with a different angle. Once I pick one, schedule it with that image.
+
+**Check the next two weeks**
+> List everything scheduled in BulkPublish for the next fourteen days, grouped by day. Flag anything duplicated, anything going out at an odd hour for its network, and any day with nothing at all.
+
+**Fix what failed**
+> Find any BulkPublish posts that failed in the last seven days. For each one, tell me in plain language what went wrong, then retry only the ones that look like a temporary problem and tell me which ones need me to fix something first.
+
+**Read the numbers back**
+> Pull my BulkPublish analytics for the last thirty days. Tell me the three posts that did best, what they have in common, and one thing I should do more of next month. Use my numbers, not general advice.
+
+The same list, in nine languages, is on every client guide at
+[bulkpublish.com/integrations](https://www.bulkpublish.com/integrations/).
+
+---
+
 ## Examples
 
 Once connected, just ask your AI assistant in natural language:
@@ -334,46 +505,63 @@ Once connected, just ask your AI assistant in natural language:
 
 ---
 
-## All 51 MCP Tools
+## All 72 MCP Tools
+
+The hosted server serves the 20-tool `core` profile marked below; the local
+server serves all 72. Set `BULKPUBLISH_TOOL_PROFILE=core|full` to switch.
 
 <details>
 <summary>Click to expand full tool list</summary>
 
-**Posts:**
-`create_post`, `update_post`, `delete_post`, `list_posts`, `get_post`, `publish_post`, `retry_post`, `approve_post`, `reject_post`, `get_post_metrics`, `publish_story`, `bulk_posts`
+**Posts (15):**
+`create_post`*, `update_post`*, `delete_post`*, `list_posts`*, `get_post`*, `publish_post`*, `retry_post`*, `get_post_metrics`*, `get_queue_slot`*, `approve_post`, `reject_post`, `publish_story`, `bulk_posts`, `share_post`, `unshare_post`
 
-**Channels:**
-`list_channels`, `get_channel_health`, `get_channel_options`, `search_mentions`
+**Channels (4):**
+`list_channels`*, `get_channel_health`, `get_channel_options`, `search_mentions`
 
-**Platforms:**
+**Platforms (1):**
 `list_platforms`
 
-**Media:**
-`upload_media`, `list_media`, `get_media`, `delete_media`, `create_media_upload`, `finalize_media_upload`, `create_multipart_upload`, `complete_multipart_upload`, `abort_multipart_upload`
+**Media (10):**
+`upload_media`*, `list_media`*, `create_media_upload`*, `finalize_media_upload`*, `get_media`, `update_media`, `delete_media`, `create_multipart_upload`, `complete_multipart_upload`, `abort_multipart_upload`
 
-**Labels:**
+**Analytics (1):**
+`get_analytics`*
+
+**Labels (4):**
 `list_labels`, `create_label`, `update_label`, `delete_label`
 
-**Analytics:**
-`get_analytics`
+**Hashtag groups (4):**
+`list_hashtag_groups`, `create_hashtag_group`, `update_hashtag_group`, `delete_hashtag_group`
 
-**Channel Sets:**
+**Templates (4):**
+`list_templates`, `create_template`, `update_template`, `delete_template`
+
+**Calendar notes (4):**
+`list_calendar_notes`, `create_calendar_note`, `update_calendar_note`, `delete_calendar_note`
+
+**Review links (3):**
+`list_review_links`, `create_review_link`, `delete_review_link`
+
+**Client connect links (3):**
+`list_client_connect_links`, `create_client_connect_link`, `delete_client_connect_link`
+
+**Channel sets (4):**
 `list_channel_sets`, `create_channel_set`, `update_channel_set`, `delete_channel_set`
 
-**RSS Autopost:**
-`list_rss_feeds`, `create_rss_feed`, `update_rss_feed`, `delete_rss_feed`
-
-**Schedules:**
+**Schedules (4):**
 `list_schedules`, `create_schedule`, `update_schedule`, `delete_schedule`
 
-**Quota:**
+**RSS autopost (4):**
+`list_rss_feeds`, `create_rss_feed`, `update_rss_feed`, `delete_rss_feed`
+
+**Quota (1):**
 `get_quota_usage`
 
-**Queue:**
-`get_queue_slot`
+**Interactive UI (MCP Apps) (6):**
+`compose_post`*, `view_analytics`*, `view_posts`*, `view_channels`*, `view_media`*, `view_quota`
 
-**Interactive UI (MCP Apps):**
-`compose_post`, `view_analytics`, `view_posts`, `view_channels`, `view_media`, `view_quota`
+`*` = in the hosted `core` profile.
 
 </details>
 

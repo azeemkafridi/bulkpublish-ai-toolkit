@@ -1,5 +1,35 @@
 # Changelog
 
+## 1.7.0 (2026-09-10)
+
+### Added
+
+- **Starter prompts.** Eight prompts to paste once the server is connected,
+  covering the first things people actually do: audit what is connected,
+  draft and queue one post, turn a link into per-network posts, plan a week,
+  post an image with caption options, review the next fortnight, retry what
+  failed, and read the analytics back. Each uses only the hosted `core`
+  profile, so nothing here asks the assistant for a tool it cannot reach.
+- **Hosted-server setup for every client.** Each section was stdio-only, so
+  the recommended route (OAuth, no API key in a config file) was documented
+  only in the general Hosted server section. Every client now shows both.
+- **Antigravity, Cline, Warp and Grok sections.** Their config shapes are the
+  ones most likely to be guessed wrong: Antigravity accepts only `serverUrl`
+  and rejects `url`/`httpUrl`, Cline wants `type: "streamableHttp"`, and
+  Warp's dialog takes the server object with no `mcpServers` wrapper.
+
+### Fixed
+
+- **The tool list said 51 under a heading saying 51, beside a table saying
+  72.** It was missing hashtag groups, templates, calendar notes, review
+  links, client connect links, `share_post`/`unshare_post` and
+  `update_media`. Regenerated from the server's own registrations, with the
+  20 core-profile tools marked.
+- **VS Code described the old `settings.json` shape.** It is `.vscode/mcp.json`
+  with a `servers` key, not `mcpServers`.
+- **Gemini CLI's remote key is `httpUrl`.** Plain `url` means SSE there and
+  does not connect to a streamable HTTP server.
+
 ## 1.6.4 (2026-09-09)
 
 ### Changed
