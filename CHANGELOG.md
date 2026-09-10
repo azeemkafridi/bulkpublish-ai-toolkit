@@ -1,5 +1,30 @@
 # Changelog
 
+## 1.9.0 (2026-09-11)
+
+### Added
+
+- **Cursor plugin.** `.cursor-plugin/plugin.json` and
+  `.cursor-plugin/marketplace.json` sit alongside the Claude manifests over the
+  same `skills/` tree, so one repo serves both marketplaces and neither copy of
+  the skills can drift from the other. The plugin points at the hosted server
+  at `https://mcp.bulkpublish.com/mcp`, which authorizes over OAuth 2.1 with
+  Dynamic Client Registration and PKCE, so there is no client ID or API key to
+  configure. All seven skills ship with it.
+- **`assets/logo.svg`.** The plated mark, referenced by relative path from both
+  Cursor manifests so it resolves as the marketplace logotype.
+- **`scripts/validate-cursor-plugin.mjs`** and a CI job that runs it on every
+  push and pull request, checks both manifests against Cursor's published
+  schemas, and fails on a version mismatch between the Claude and Cursor
+  manifests. An earlier Cursor plugin lived in another repo and was deleted by
+  an unrelated commit that moved the skills directory out from under it; this
+  job exists so that cannot happen again unnoticed.
+
+### Fixed
+
+- **The plugin manifests claimed 1.6.4 while this changelog was at 1.8.0.**
+  Both are now 1.9.0, and CI fails if they diverge.
+
 ## 1.8.0 (2026-09-10)
 
 ### Added

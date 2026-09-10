@@ -123,13 +123,28 @@ Restart Claude Desktop to activate.
 
 ### Cursor
 
-**Option A — Agent Skills:**
+**Option A — Plugin (recommended, includes the skills and needs no key):**
+
+Search for **BulkPublish** in **Cursor Settings → Plugins** and click Install, then
+complete the BulkPublish sign-in prompt. Or add this repo as a marketplace and
+install from it:
+
+```bash
+/add-plugin bulkpublish
+```
+
+The plugin connects to the hosted server at `https://mcp.bulkpublish.com/mcp`.
+Sign-in is OAuth 2.1 with Dynamic Client Registration and PKCE, so Cursor
+registers itself and there is no client ID or API key to paste. It ships all
+seven skills alongside the tools.
+
+**Option B — Agent Skills:**
 
 ```bash
 npx skills add azeemkafridi/bulkpublish-ai-toolkit -a cursor
 ```
 
-**Option B — MCP config.** Create or edit `.cursor/mcp.json` in your project root (or globally at `~/.cursor/mcp.json`):
+**Option C — MCP config.** Create or edit `.cursor/mcp.json` in your project root (or globally at `~/.cursor/mcp.json`):
 
 ```json
 {
@@ -145,7 +160,7 @@ npx skills add azeemkafridi/bulkpublish-ai-toolkit -a cursor
 }
 ```
 
-**Option C — hosted server, no key on disk.** `.cursor/mcp.json`:
+**Option D — hosted server, no key on disk.** `.cursor/mcp.json`:
 
 ```json
 {

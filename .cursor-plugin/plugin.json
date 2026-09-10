@@ -1,0 +1,54 @@
+{
+  "name": "bulkpublish",
+  "displayName": "BulkPublish",
+  "version": "1.9.0",
+  "description": "Draft, schedule and publish social media posts across 15 networks, manage media and channels, and read engagement metrics — through BulkPublish's official remote MCP server.",
+  "author": {
+    "name": "BulkPublish",
+    "email": "support@bulkpublish.com"
+  },
+  "homepage": "https://bulkpublish.com",
+  "repository": "https://github.com/azeemkafridi/bulkpublish-ai-toolkit",
+  "license": "MIT",
+  "logo": "assets/logo.svg",
+  "category": "productivity",
+  "keywords": [
+    "bulkpublish",
+    "social-media",
+    "scheduling",
+    "publishing",
+    "analytics",
+    "marketing",
+    "content",
+    "mcp",
+    "x",
+    "linkedin",
+    "instagram",
+    "facebook",
+    "tiktok",
+    "youtube",
+    "threads",
+    "bluesky",
+    "mastodon",
+    "pinterest",
+    "discord",
+    "telegram"
+  ],
+  "tags": [
+    "social-media",
+    "scheduling",
+    "marketing",
+    "automation",
+    "analytics"
+  ],
+  "skills": [
+    "./skills/using-bulkpublish",
+    "./skills/platform-reference",
+    "./skills/schedule-post",
+    "./skills/bulk-publish",
+    "./skills/manage-channels",
+    "./skills/get-analytics",
+    "./skills/check-quota"
+  ],
+  "mcpServers": "./mcp.json"
+}

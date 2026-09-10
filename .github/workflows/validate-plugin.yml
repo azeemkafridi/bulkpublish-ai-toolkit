@@ -1,0 +1,60 @@
+name: Validate plugin manifests
+
+# The Cursor plugin was silently deleted once before, by an unrelated commit in
+# another repo that moved the skills directory out from under it. This job fails
+# the build if any manifest, the logo, or a referenced skill goes missing again.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Every manifest and referenced path exists
+        run: node scripts/validate-cursor-plugin.mjs
+
+      - name: Manifests match Cursor's published schemas
+        run: |
+          npm install --no-save ajv ajv-formats
+          curl -sfL -o plugin.schema.json \
+            https://raw.githubusercontent.com/cursor/plugins/main/schemas/plugin.schema.json
+          curl -sfL -o marketplace.schema.json \
+            https://raw.githubusercontent.com/cursor/plugins/main/schemas/marketplace.schema.json
+          node -e "
+            const Ajv = require('ajv'), addFormats = require('ajv-formats'), fs = require('fs');
+            const ajv = new Ajv({ strict: false, allErrors: true }); addFormats(ajv);
+            let failed = false;
+            for (const [schema, doc] of [
+              ['plugin.schema.json', '.cursor-plugin/plugin.json'],
+              ['marketplace.schema.json', '.cursor-plugin/marketplace.json'],
+            ]) {
+              const validate = ajv.compile(JSON.parse(fs.readFileSync(schema, 'utf8')));
+              if (validate(JSON.parse(fs.readFileSync(doc, 'utf8')))) {
+                console.log(doc + ': ok');
+              } else {
+                failed = true;
+                console.error(doc + ':', JSON.stringify(validate.errors, null, 2));
+              }
+            }
+            process.exit(failed ? 1 : 0);
+          "
+
+      - name: The Claude and Cursor manifests agree on a version
+        run: |
+          claude=$(node -p "require('./.claude-plugin/plugin.json').version")
+          cursor=$(node -p "require('./.cursor-plugin/plugin.json').version")
+          if [ "$claude" != "$cursor" ]; then
+            echo "Version drift: .claude-plugin says $claude, .cursor-plugin says $cursor"
+            exit 1
+          fi
+          echo "Both at $claude"

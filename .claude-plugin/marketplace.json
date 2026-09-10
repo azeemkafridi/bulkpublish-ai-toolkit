@@ -1,7 +1,7 @@
 {
   "name": "bulkpublish-ai-toolkit",
   "version": "1.0.0",
-  "description": "Official BulkPublish AI Toolkit \u2014 MCP server + skills for social media automation",
+  "description": "Official BulkPublish AI Toolkit — MCP server + skills for social media automation",
   "owner": {
     "name": "BulkPublish",
     "url": "https://bulkpublish.com"
@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "bulkpublish",
-      "version": "1.6.4",
+      "version": "1.9.0",
       "description": "Schedule posts, manage channels, track analytics across 15 social platforms from any AI assistant",
       "author": {
         "name": "BulkPublish",
