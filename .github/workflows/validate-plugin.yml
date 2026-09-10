@@ -34,10 +34,13 @@ jobs:
             const Ajv = require('ajv'), addFormats = require('ajv-formats'), fs = require('fs');
             const ajv = new Ajv({ strict: false, allErrors: true }); addFormats(ajv);
             let failed = false;
-            for (const [schema, doc] of [
-              ['plugin.schema.json', '.cursor-plugin/plugin.json'],
-              ['marketplace.schema.json', '.cursor-plugin/marketplace.json'],
-            ]) {
+            // This is a single-plugin repo, so only plugin.json is expected.
+            // marketplace.json is checked only if a future change adds one.
+            const pairs = [['plugin.schema.json', '.cursor-plugin/plugin.json']];
+            if (fs.existsSync('.cursor-plugin/marketplace.json')) {
+              pairs.push(['marketplace.schema.json', '.cursor-plugin/marketplace.json']);
+            }
+            for (const [schema, doc] of pairs) {
               const validate = ajv.compile(JSON.parse(fs.readFileSync(schema, 'utf8')));
               if (validate(JSON.parse(fs.readFileSync(doc, 'utf8')))) {
                 console.log(doc + ': ok');

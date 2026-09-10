@@ -1,13 +1,30 @@
 # Changelog
 
+## 1.9.1 (2026-09-11)
+
+### Fixed
+
+- **The repo declared itself both a plugin and a marketplace, and Cursor
+  imported neither.** `.cursor-plugin/` held a `plugin.json` *and* a
+  `marketplace.json` whose only entry pointed back at the repo root with
+  `source: "./"`. Cursor recognises two shapes and never mixes them: a
+  single-plugin repo has `plugin.json` at the root, a marketplace has
+  `marketplace.json` at the root and each plugin in its own subdirectory —
+  their own marketplace root holds `marketplace.json` alone, and not one of
+  the 70 plugins in it uses `source: "./"`. Pasting the repo URL into Import
+  from GitHub Repo did nothing at all, with no error. This is a single-plugin
+  repo, so `marketplace.json` is gone.
+- **The validator now understands both shapes** and fails on the hybrid, with
+  the reason spelled out, so the same silent failure cannot return. CI checks
+  `marketplace.json` against its schema only when one exists.
+
 ## 1.9.0 (2026-09-11)
 
 ### Added
 
-- **Cursor plugin.** `.cursor-plugin/plugin.json` and
-  `.cursor-plugin/marketplace.json` sit alongside the Claude manifests over the
-  same `skills/` tree, so one repo serves both marketplaces and neither copy of
-  the skills can drift from the other. The plugin points at the hosted server
+- **Cursor plugin.** `.cursor-plugin/plugin.json` sits alongside the Claude
+  manifests over the same `skills/` tree, so one repo serves both marketplaces
+  and neither copy of the skills can drift from the other. The plugin points at the hosted server
   at `https://mcp.bulkpublish.com/mcp`, which authorizes over OAuth 2.1 with
   Dynamic Client Registration and PKCE, so there is no client ID or API key to
   configure. All seven skills ship with it.
