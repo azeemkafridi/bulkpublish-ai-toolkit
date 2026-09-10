@@ -1,5 +1,25 @@
 # Changelog
 
+## 1.8.0 (2026-09-10)
+
+### Added
+
+- **`using-bulkpublish` skill.** One standalone reference covering the tool
+  surface, the shape of a post, every network's character limit and post
+  types, the status vocabulary including `partial` and `processing`, plan
+  limits, the field-name mistakes that produce a 400, and four worked
+  recipes. Written to be readable on its own, with no links, so it can be
+  used as a directory listing as well as a skill.
+
+### Fixed
+
+- **`check-quota` published stale free-plan figures.** It claimed 5 posts a
+  day, 50 a month, 500MB of storage, 100 API requests a day, 5 labels and 1
+  repeating schedule. The real numbers are 3, 30, 100MB, 30, 10 and 0. The
+  Pro and Business channel counts were wrong too (15/55, actually 30/75).
+  Regenerated from the plan table, and extended with the per-network account
+  cap, team seats and RSS rows it never had.
+
 ## 1.7.0 (2026-09-10)
 
 ### Added
