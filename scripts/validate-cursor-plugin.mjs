@@ -297,22 +297,13 @@ async function main() {
   const hasMarketplace = await pathExists(marketplacePath);
   const hasRootPlugin = await pathExists(rootPluginPath);
 
-  // Cursor recognises two repository shapes and never mixes them: a
-  // single-plugin repo has .cursor-plugin/plugin.json at the root, and a
-  // multi-plugin marketplace has .cursor-plugin/marketplace.json at the root
-  // with each plugin in its own subdirectory. Both manifests in one directory
-  // is not a shape Cursor resolves — the importer reads the marketplace, finds
-  // no plugin subdirectory, and silently does nothing.
-  if (hasMarketplace && hasRootPlugin) {
-    addError(
-      'Both .cursor-plugin/marketplace.json and .cursor-plugin/plugin.json exist at the repo root. ' +
-        "Pick one shape: a single-plugin repo keeps only plugin.json; a marketplace keeps only " +
-        "marketplace.json and puts each plugin in its own subdirectory."
-    );
-    summarizeAndExit();
-    return;
-  }
-
+  // Cursor's "Import from GitHub Repo" imports a repo AS A MARKETPLACE and
+  // reads .cursor-plugin/marketplace.json. A single-plugin repo therefore
+  // keeps a one-entry marketplace.json whose source is "./" next to its
+  // plugin.json — the two coexist by design, and the entry resolves back to
+  // the root manifest below. Removing marketplace.json from this repo broke
+  // the GitHub import (1.9.1); do not "tidy" it away again. A repo with only
+  // plugin.json is still validated, for the local ~/.cursor/plugins/local case.
   if (!hasMarketplace) {
     if (!hasRootPlugin) {
       addError(

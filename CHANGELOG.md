@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.9.2 (2026-09-11)
+
+### Fixed
+
+- **1.9.1 broke the GitHub import it claimed to fix.** Cursor's Import from
+  GitHub Repo imports a repository *as a marketplace* and reads
+  `.cursor-plugin/marketplace.json`; the import had been working, and removing
+  that file is what stopped it. The single-entry `marketplace.json` with
+  `source: "./"` beside `plugin.json` is the intended shape for a
+  single-plugin repo, and is what other listed single-plugin repos ship.
+  Restored. The validator accepts the pairing again and says why, so it is not
+  removed a third time.
+- Note on re-importing: pasting an already-imported repo does nothing visible
+  because it is already registered. Use the marketplace's refresh button, or
+  wait for auto-refresh, which re-indexes at most once every ten minutes.
+
 ## 1.9.1 (2026-09-11)
 
 ### Fixed

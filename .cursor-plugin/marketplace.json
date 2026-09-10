@@ -1,0 +1,18 @@
+{
+  "name": "bulkpublish-ai-toolkit",
+  "owner": {
+    "name": "BulkPublish",
+    "email": "support@bulkpublish.com"
+  },
+  "metadata": {
+    "description": "BulkPublish plugins for Cursor — schedule and publish social media posts across 15 networks",
+    "version": "1.9.2"
+  },
+  "plugins": [
+    {
+      "name": "bulkpublish",
+      "source": "./",
+      "description": "Draft, schedule and publish social media posts across 15 networks, manage media and channels, and read engagement metrics — through BulkPublish's official remote MCP server."
+    }
+  ]
+}
