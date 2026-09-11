@@ -2,6 +2,11 @@
 
 ## 1.9.3 — 2026-09-11
 
+- Cursor plugin no longer lists the `check-quota` skill: it connects to the
+  hosted server, whose 20-tool profile has no quota tools, so the skill promised
+  something that server cannot do. The Claude Code plugin keeps it (its local
+  server has them).
+
 - `plugin.json` now passes `claude plugin validate --strict`: the MCP server
   reference is plugin-root relative (`./.mcp.json`) and the `api_key` user
   setting declares its `type` and `title`.
