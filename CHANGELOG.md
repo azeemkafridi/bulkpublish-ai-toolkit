@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.9.3 — 2026-09-11
+
+- `plugin.json` now passes `claude plugin validate --strict`: the MCP server
+  reference is plugin-root relative (`./.mcp.json`) and the `api_key` user
+  setting declares its `type` and `title`.
+- README gains a Privacy Policy section, as the Connectors Directory requires
+  for locally run connectors.
+- The platform reference says 15 platforms, matching every other surface
+  (Reddit is documented but marked switched off).
+
 ## 1.9.2 (2026-09-11)
 
 ### Fixed

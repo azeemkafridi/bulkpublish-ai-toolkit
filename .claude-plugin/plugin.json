@@ -1,7 +1,7 @@
 {
   "name": "bulkpublish",
-  "version": "1.9.2",
-  "description": "Social media automation toolkit — schedule posts, manage channels, track analytics across 15 platforms via MCP",
+  "version": "1.9.3",
+  "description": "Social media automation toolkit \u2014 schedule posts, manage channels, track analytics across 15 platforms via MCP",
   "author": {
     "name": "BulkPublish",
     "url": "https://bulkpublish.com"
@@ -17,11 +17,14 @@
     "mcp",
     "publishing"
   ],
-  "mcpServers": "../.mcp.json",
+  "mcpServers": "./.mcp.json",
   "userConfig": {
     "api_key": {
-      "description": "Your BulkPublish API key (starts with bp_). Get one at https://app.bulkpublish.com/developer",
-      "sensitive": true
+      "type": "string",
+      "title": "BulkPublish API key",
+      "description": "Your BulkPublish API key (starts with bp_). Create one at https://app.bulkpublish.com/developer",
+      "sensitive": true,
+      "required": true
     }
   }
 }

@@ -4,7 +4,7 @@ Connect your AI assistant to [BulkPublish](https://bulkpublish.com) — schedule
 
 ## What You Get
 
-**72 MCP tools** in the local server (`npx @bulkpublish/mcp-server`), including interactive MCP Apps widgets. The hosted server at `https://mcp.bulkpublish.com/mcp` (OAuth 2.1, used by the Claude and ChatGPT directories) serves a 20-tool `core` profile — channels, posts, media, analytics and the interactive panels — and `BULKPUBLISH_TOOL_PROFILE=core|full` switches either.
+**51 MCP tools** in the local server (`npx @bulkpublish/mcp-server`), including interactive MCP Apps widgets. The hosted server at `https://mcp.bulkpublish.com/mcp` (OAuth 2.1, used by the Claude and ChatGPT directories) serves a 20-tool `core` profile — channels, posts, media, analytics and the interactive panels — and `BULKPUBLISH_TOOL_PROFILE=core|full` switches either.
 
 | Category | Tools (full profile) | Examples |
 |---|---|---|
@@ -520,16 +520,16 @@ Once connected, just ask your AI assistant in natural language:
 
 ---
 
-## All 72 MCP Tools
+## All 51 MCP Tools
 
 The hosted server serves the 20-tool `core` profile marked below; the local
-server serves all 72. Set `BULKPUBLISH_TOOL_PROFILE=core|full` to switch.
+server serves all 51. Set `BULKPUBLISH_TOOL_PROFILE=core|full` to switch.
 
 <details>
 <summary>Click to expand full tool list</summary>
 
-**Posts (15):**
-`create_post`*, `update_post`*, `delete_post`*, `list_posts`*, `get_post`*, `publish_post`*, `retry_post`*, `get_post_metrics`*, `get_queue_slot`*, `approve_post`, `reject_post`, `publish_story`, `bulk_posts`, `share_post`, `unshare_post`
+**Posts (13):**
+`create_post`*, `update_post`*, `delete_post`*, `list_posts`*, `get_post`*, `publish_post`*, `retry_post`*, `get_post_metrics`*, `get_queue_slot`*, `approve_post`, `reject_post`, `publish_story`, `bulk_posts`
 
 **Channels (4):**
 `list_channels`*, `get_channel_health`, `get_channel_options`, `search_mentions`
@@ -537,29 +537,14 @@ server serves all 72. Set `BULKPUBLISH_TOOL_PROFILE=core|full` to switch.
 **Platforms (1):**
 `list_platforms`
 
-**Media (10):**
-`upload_media`*, `list_media`*, `create_media_upload`*, `finalize_media_upload`*, `get_media`, `update_media`, `delete_media`, `create_multipart_upload`, `complete_multipart_upload`, `abort_multipart_upload`
+**Media (9):**
+`upload_media`*, `list_media`*, `create_media_upload`*, `finalize_media_upload`*, `get_media`, `delete_media`, `create_multipart_upload`, `complete_multipart_upload`, `abort_multipart_upload`
 
 **Analytics (1):**
 `get_analytics`*
 
 **Labels (4):**
 `list_labels`, `create_label`, `update_label`, `delete_label`
-
-**Hashtag groups (4):**
-`list_hashtag_groups`, `create_hashtag_group`, `update_hashtag_group`, `delete_hashtag_group`
-
-**Templates (4):**
-`list_templates`, `create_template`, `update_template`, `delete_template`
-
-**Calendar notes (4):**
-`list_calendar_notes`, `create_calendar_note`, `update_calendar_note`, `delete_calendar_note`
-
-**Review links (3):**
-`list_review_links`, `create_review_link`, `delete_review_link`
-
-**Client connect links (3):**
-`list_client_connect_links`, `create_client_connect_link`, `delete_client_connect_link`
 
 **Channel sets (4):**
 `list_channel_sets`, `create_channel_set`, `update_channel_set`, `delete_channel_set`
@@ -607,6 +592,15 @@ BulkPublish is available across many platforms:
 - [Developer Dashboard](https://app.bulkpublish.com/developer) — API keys & usage
 - [MCP Server on npm](https://www.npmjs.com/package/@bulkpublish/mcp-server) — `@bulkpublish/mcp-server`
 - [GitHub](https://github.com/azeemkafridi/bulkpublish-api) — SDKs, examples, guides
+
+## Privacy Policy
+
+The plugin runs the BulkPublish MCP server on your machine and talks only to
+your BulkPublish account over HTTPS, using the API key you configure. It does
+not read your conversation history, files, or memory, and it sends nothing to
+anyone other than BulkPublish. How BulkPublish collects, uses, retains and
+shares data, and how to contact us, is described in the
+[BulkPublish Privacy Policy](https://www.bulkpublish.com/privacy/).
 
 ## License
 

@@ -1,6 +1,6 @@
 ---
 name: platform-reference
-description: Complete reference for all 16 BulkPublish platforms — post types, media requirements, required fields, character limits, and platformSpecific options. ALWAYS consult before creating posts.
+description: Complete reference for the 15 BulkPublish platforms (plus Reddit, currently switched off) — post types, media requirements, required fields, character limits, and platformSpecific options. ALWAYS consult before creating posts.
 ---
 
 # BulkPublish — Platform Reference
