@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.9.4 — 2026-09-13
+
+- The RSS field-mapping reference now covers `articleImage` (`when_needed` default /
+  `always` / `never`): a feed item with no picture of its own borrows one from the
+  article it links to, so a text-only feed works on Instagram, Pinterest and Snapchat
+  instead of skipping those channels. Also corrects the old claim that image-required
+  platforms are skipped whenever an item lacks an enclosure — that now happens only
+  when the article yields nothing too.
+
 ## 1.9.3 — 2026-09-11
 
 - Cursor plugin no longer lists the `check-quota` skill: it connects to the
