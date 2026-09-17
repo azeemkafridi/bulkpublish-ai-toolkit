@@ -12,7 +12,7 @@ Takes no parameters. Returns current plan, limits, and usage.
 ## Response shape
 
 ```
-plan          — "free", "pro", or "business"
+plan          — "free", "ltd" (Lifetime, from an AppSumo license), "pro", or "business"
 limits        — max values for each resource (-1 means unlimited)
 usage         — current consumption for each resource
 subscription  — status, currentPeriodEnd, cancelAtPeriodEnd

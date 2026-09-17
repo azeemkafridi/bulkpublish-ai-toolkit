@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.9.5 — 2026-09-17
+
+- `check-quota` documents the fourth `plan` value, `ltd`: the Lifetime plan granted by
+  an AppSumo license. Treat it as Free-like for X (no included budget, credits only)
+  and otherwise read `limits` rather than assuming figures from the plan name.
+
 ## 1.9.4 — 2026-09-13
 
 - The RSS field-mapping reference now covers `articleImage` (`when_needed` default /
