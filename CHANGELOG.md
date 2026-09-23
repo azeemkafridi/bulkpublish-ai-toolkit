@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.9.6 — 2026-09-23
+
+- `schedule-post` and the README describe the new approval rule: approving a pending
+  post publishes it at its scheduled time, or immediately if that time passed less than
+  15 minutes ago. If it passed more than 15 minutes ago, the post is approved but not
+  published — it comes back with `status: "draft"` (`approvalStatus: "approved"`,
+  `scheduledAt` unchanged) and the author is notified to choose a new time. Agents
+  should read the returned `status` instead of saying the post went out.
+- `approve_post` / `reject_post` document the **409** returned when the post stopped
+  awaiting approval while the request was in flight (approved, rejected or withdrawn by
+  someone else): reload it with `get_post` and review again.
+
 ## 1.9.5 — 2026-09-17
 
 - `check-quota` documents the fourth `plan` value, `ltd`: the Lifetime plan granted by
