@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.9.7 — 2026-09-24
+
+- `schedule-post` and `bulk-publish` say pending and rejected posts "do not publish"
+  until approved, instead of describing how that is done.
+- The approve/reject **409** now names every cause: someone else approved, rejected or
+  withdrew the post, or (on approve) its scheduled time moved.
+- `schedule-post` and the README say `requestApproval` applies only to scheduled posts;
+  a draft ignores it and stays `approvalStatus: "none"`.
+
 ## 1.9.6 — 2026-09-23
 
 - `schedule-post` and the README describe the new approval rule: approving a pending
