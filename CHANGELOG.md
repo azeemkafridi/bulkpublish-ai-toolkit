@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.10.1 — 2026-09-24
+
+- Documents the optional `ifUnmodifiedSince` on `approve_post` / `reject_post`: pass
+  the `updatedAt` of the version shown to the user, and a post that changed since is
+  left untouched with a 409.
+- Corrects the 409 wording: the post changed since you loaded it, or is no longer
+  awaiting approval. A moved scheduled time is not a cause. Approve and reject both
+  set `publishWhenApproved` to `false`.
+
 ## 1.10.0 — 2026-09-24
 
 - Documents `publishWhenApproved` on `create_post` / `update_post`: a post approved

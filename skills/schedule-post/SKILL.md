@@ -84,7 +84,7 @@ not publish, even when they are scheduled and overdue. Default is `"none"`.
   filter accepts `none` | `pending` | `approved` | `rejected`), or
   `GET /api/posts?approvalStatus=pending`.
 - **Approving** — `approve_post` (postId), i.e. `POST /api/posts/{id}/approve`,
-  optional `whenLate`. Requires a role with `post:approve` (owner, admin, approver).
+  optional `whenLate` and `ifUnmodifiedSince`. Requires a role with `post:approve` (owner, admin, approver).
   Releases the post: it publishes at its scheduled time, or immediately if that
   time passed less than 15 minutes ago. If it passed more than 15 minutes ago,
   the post is approved but NOT published: it comes back with `status` `"draft"`
@@ -96,15 +96,23 @@ not publish, even when they are scheduled and overdue. Default is `"none"`.
   for a late post. Check the returned `status` and tell the user
   it needs rescheduling rather than saying it went out. The author is notified
   in-app either way.
-- **Rejecting** — `reject_post` (postId, optional `reason` max 2000 chars), i.e.
+- **Rejecting** — `reject_post` (postId, optional `reason` max 2000 chars,
+  optional `ifUnmodifiedSince`), i.e.
   `POST /api/posts/{id}/reject`. The post returns to draft with `approvalStatus`
   `"rejected"` and the reason; the author is notified and can edit + reschedule
   to resubmit for approval.
-- Both return the post on 200; **400** if the post is not awaiting approval,
-  **403** if the role lacks `post:approve`, **404** if not found, **409** if the
-  post changed while you were reviewing it (someone else approved, rejected or
-  withdrew it, or, on approve, its scheduled time moved) — reload it with
-  `get_post` and review again.
+- **Approve the version the user saw** — both tools take an optional
+  `ifUnmodifiedSince`: pass the `updatedAt` of the post exactly as you showed it
+  to the user. If the post changed since, nothing is written and you get **409**
+  (`error.updatedAt` is the current value), so an edit nobody reviewed is never
+  approved. Omit it to act on whatever version is current. Both approving and
+  rejecting set `publishWhenApproved` to `false`.
+- Both return the post on 200; **400** if the post is not awaiting approval or
+  `ifUnmodifiedSince` is not an ISO 8601 timestamp, **403** if the role lacks
+  `post:approve`, **404** if not found, **409** if the post changed since you
+  loaded it (checked when `ifUnmodifiedSince` is sent) or is no longer awaiting
+  approval — reload it with `get_post`, show the user what is there now, and
+  review again.
 - **Publish as soon as approved** — `publishWhenApproved: true` on `create_post`
   or `update_post` (default `false`, kept only while the post awaits approval)
   means a late approval publishes the post straight away instead of returning it
