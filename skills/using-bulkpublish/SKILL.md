@@ -94,6 +94,8 @@ postTypeOverrides  per-platform post type, e.g. reel instead of feed_photo
 postFormat         "post" (default), "video", "reel", "story", "carousel", "thread"
 threadParts        [{ content, mediaFileIds }]; required when postFormat is "thread", minimum 2
 requestApproval    true holds a scheduled post for a teammate to approve
+publishWhenApproved true publishes it the moment it is approved, even past its time
+                   (set it for "post now, once approved", not for a chosen time)
 ```
 
 Notes that catch people out:
@@ -135,7 +137,9 @@ which retries only the destinations that failed.
 
 Approval is separate from status. `approvalStatus` is `none`, `pending`,
 `approved` or `rejected`. A `scheduled` post whose approval is `pending` or
-`rejected` will not publish.
+`rejected` will not publish. Approved more than 15 minutes after its time, a
+post goes back to draft for a new time unless it has `publishWhenApproved` or the
+approver passes `whenLate: "publish"` to `approve_post` (`"hold"` forces draft).
 
 ## Networks
 

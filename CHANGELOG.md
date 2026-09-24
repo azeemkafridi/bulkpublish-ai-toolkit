@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.10.0 — 2026-09-24
+
+- Documents `publishWhenApproved` on `create_post` / `update_post`: a post approved
+  after its scheduled time publishes straight away instead of returning to draft.
+  `schedule-post` adds a "Publish now, with review" flow (schedule for the current
+  time + `requestApproval` + `publishWhenApproved`) and says not to set it when the
+  user chose a specific time.
+- Documents the optional `whenLate` (`"publish"` | `"hold"`) on `approve_post`, which
+  decides what a late approval does; left out, the post's `publishWhenApproved` decides.
+
 ## 1.9.7 — 2026-09-24
 
 - `schedule-post` and `bulk-publish` say pending and rejected posts "do not publish"

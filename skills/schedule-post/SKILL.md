@@ -31,6 +31,9 @@ platformSpecific (object)         — per-platform options; see the
                                     post still publishes)
 requestApproval (boolean)         — default false; hold a scheduled post for team
                                     approval (approvalStatus becomes "pending")
+publishWhenApproved (boolean)     — default false; with requestApproval, publish
+                                    the post as soon as it is approved even if
+                                    that is after its scheduled time
 linkTrackingOverride (boolean|null) — default null; per-post override for
                                     bulkpubli.sh link tracking. true shortens the
                                     post's links and counts clicks, false posts
@@ -81,12 +84,16 @@ not publish, even when they are scheduled and overdue. Default is `"none"`.
   filter accepts `none` | `pending` | `approved` | `rejected`), or
   `GET /api/posts?approvalStatus=pending`.
 - **Approving** — `approve_post` (postId), i.e. `POST /api/posts/{id}/approve`,
-  no body. Requires a role with `post:approve` (owner, admin, approver).
+  optional `whenLate`. Requires a role with `post:approve` (owner, admin, approver).
   Releases the post: it publishes at its scheduled time, or immediately if that
   time passed less than 15 minutes ago. If it passed more than 15 minutes ago,
   the post is approved but NOT published: it comes back with `status` `"draft"`
   (`approvalStatus` `"approved"`, `scheduledAt` unchanged) and the author is
-  notified to choose a new time. Check the returned `status` and tell the user
+  notified to choose a new time — unless the approver says otherwise with
+  `whenLate`: `"publish"` publishes it now, `"hold"` returns it to draft. Left
+  out, the post's `publishWhenApproved` decides (`true` publishes, otherwise it
+  goes back to draft). Only pass `whenLate` when the user says what they want
+  for a late post. Check the returned `status` and tell the user
   it needs rescheduling rather than saying it went out. The author is notified
   in-app either way.
 - **Rejecting** — `reject_post` (postId, optional `reason` max 2000 chars), i.e.
@@ -98,6 +105,14 @@ not publish, even when they are scheduled and overdue. Default is `"none"`.
   post changed while you were reviewing it (someone else approved, rejected or
   withdrew it, or, on approve, its scheduled time moved) — reload it with
   `get_post` and review again.
+- **Publish as soon as approved** — `publishWhenApproved: true` on `create_post`
+  or `update_post` (default `false`, kept only while the post awaits approval)
+  means a late approval publishes the post straight away instead of returning it
+  to draft. Set it when the user wants the post out "now, once it's approved":
+  schedule it for the current time with `requestApproval: true` and
+  `publishWhenApproved: true`. Do NOT set it when the user picked a specific
+  time: a post meant for Friday 9am should not go out on Monday just because
+  that is when it was approved. Post responses carry `publishWhenApproved`.
 - **`APPROVAL_REQUIRED`** — `publish_post` and `retry_post` return **403** with
   error code `APPROVAL_REQUIRED` for roles without `post:publish`. Do not retry:
   create/update the post with `requestApproval: true` and tell the user a
@@ -109,6 +124,7 @@ not publish, even when they are scheduled and overdue. Default is `"none"`.
 - **Draft then publish**: `create_post` (status: "draft") → `publish_post` (postId)
 - **Schedule for later**: `create_post` (status: "scheduled", scheduledAt: "2026-04-12T09:00:00Z")
 - **Schedule with review**: `create_post` (status: "scheduled", scheduledAt: ..., requestApproval: true) → a teammate calls `approve_post`
+- **Publish now, with review**: `create_post` (status: "scheduled", scheduledAt: <current time>, requestApproval: true, publishWhenApproved: true) → it publishes the moment a teammate approves it
 - **Optimal timing**: call `get_queue_slot` (optionally pass `timezone`, default UTC) to get the best next slot. It returns `{suggestedTime, timezone}` — it does NOT take a channelId or date (any such args are ignored).
 - **Retry failures**: `retry_post` (postId, optional `republish`) re-queues the
   post's `failed` platforms. A platform can also end in status `unconfirmed` —
