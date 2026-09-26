@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.10.4 — 2026-09-26
+
+- README: a Muse section. Muse has no connector settings screen, so setup is one
+  chat message with the hosted server address.
+
 ## 1.10.3 — 2026-09-26
 
 - Plugin: the local MCP server is pinned to `@bulkpublish/mcp-server@1.33.2`

@@ -433,6 +433,22 @@ requires a publicly reachable URL, which the hosted server is.
 
 ---
 
+### Muse
+
+Muse, Meta's personal AI agent, has no connector settings screen. You set it
+up by asking in chat. Send Muse a message like this:
+
+```
+Add a custom MCP connector called BulkPublish. The server is at
+https://mcp.bulkpublish.com/mcp over Streamable HTTP and signs in with OAuth.
+```
+
+Muse may ask whether the server needs a key. It does not: the server signs in
+with OAuth, so you approve access in your browser and paste nothing. After
+that, ask it to post, schedule, or read your analytics in plain language.
+
+---
+
 ### Other MCP-Compatible Tools
 
 Any tool that supports the [Model Context Protocol](https://modelcontextprotocol.io) can connect to BulkPublish. The general pattern:
