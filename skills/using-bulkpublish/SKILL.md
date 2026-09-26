@@ -176,8 +176,9 @@ Uploaded media is kept by default. `deleteMediaAfterPublish` defaults to
 `get_analytics` takes a required `from` and `to` in ISO date form, plus
 optional `channelIds`, `platforms`, `labelIds`, `postFormat`, `mediaType` and
 `compare`. Set `compare: true` to get the previous equal-length window back
-alongside the current one, which is how you answer "is this better than last
-month".
+alongside the current one. It is only available for windows of 15 days or
+fewer, so it answers "is this week better than last week", not month over
+month.
 
 Link clicks are reported separately from platform clicks. Do not add the two
 together: one visit can appear in both.
@@ -241,7 +242,7 @@ media frees it.
 4. Tell the user which ones need them to act, such as reconnecting an account
 
 **Report on the month**
-1. `get_analytics` for the range with `compare: true`
+1. `get_analytics` for the range (`compare` works only for 15 days or fewer)
 2. `list_posts` with `status: "published"` over the same range
 3. `get_post_metrics` on the strongest few
 4. Answer with their numbers, naming specific posts

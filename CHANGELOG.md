@@ -1,5 +1,27 @@
 # Changelog
 
+## 1.10.2 — 2026-09-26
+
+- README: the local server has 72 tools, not 51.
+- `platform-reference`: TikTok `privacyLevel` values are `PUBLIC_TO_EVERYONE`,
+  `MUTUAL_FOLLOW_FRIENDS`, `FOLLOWER_OF_CREATOR`, `SELF_ONLY` (others are rejected),
+  and an omitted value publishes as `PUBLIC_TO_EVERYONE`, not `SELF_ONLY`. Reddit
+  video `thumbnailUrl` is optional: the video's poster frame is used when omitted.
+- `schedule-post`: TikTok post type is `photo_slideshow`, not `slideshow`. RSS feed
+  limits and check interval depend on the plan (not a flat 20 feeds / 15 minutes),
+  and `mode: "publish"` returns 403 `FEATURE_DISABLED` on plans without auto-publish.
+- `get-analytics`: `get_analytics` takes `from` / `to`, not `startDate` / `endDate`.
+- `using-bulkpublish`: `compare` works only for windows of 15 days or fewer.
+- `manage-channels`: `tokenStatus` is `valid` / `expiring_soon` / `expired`;
+  `search_mentions` also covers LinkedIn; channel sets have MCP tools.
+- `bulk-publish`: multipart uploads have MCP tools. Storage quota on a multipart
+  upload is 403 `QUOTA_EXCEEDED`, not 429. Bulk `reschedule` can return 403
+  `QUOTA_EXCEEDED` (pending-scheduled or per-day cap) and 400 on a bad date.
+- `schedule-post`: `content` is optional (media-only posts). `get_queue_slot`
+  returns `{scheduledAt, dayLabel}`, not `{suggestedTime, timezone}`. Over the
+  RSS feed limit is 403 `QUOTA_EXCEEDED`. A scheduled post naming a disconnected
+  channel is 400 `CHANNEL_INACTIVE`.
+
 ## 1.10.1 — 2026-09-24
 
 - Documents the optional `ifUnmodifiedSince` on `approve_post` / `reject_post`: pass

@@ -16,7 +16,7 @@ description: List connected social media channels and check their health via Bul
 
 ## list_channels response shape
 
-Each channel: `id`, `platform`, `accountName`, `accountId`, `accountType`, `isActive`, `tokenStatus` ("valid"/"expired"/"error"), `tokenExpiresAt`.
+Each channel: `id`, `platform`, `accountName`, `accountId`, `accountType`, `isActive`, `tokenStatus` ("valid"/"expiring_soon"/"expired"), `tokenExpiresAt`.
 
 ## Platform names (used in channels and create_post)
 
@@ -32,7 +32,7 @@ Each channel: `id`, `platform`, `accountName`, `accountId`, `accountType`, `isAc
 
 ## Channel Sets (REST API)
 
-Saved channel groups for one-click targeting. No MCP tool yet — call the REST API directly (`Authorization: Bearer bp_your_key`, base `https://app.bulkpublish.com`).
+Saved channel groups for one-click targeting. MCP tools: `list_channel_sets`, `create_channel_set`, `update_channel_set`, `delete_channel_set`. The REST API uses `Authorization: Bearer bp_your_key`, base `https://app.bulkpublish.com`:
 
 | Endpoint | Use for |
 |---|---|
@@ -51,5 +51,5 @@ Saved channel groups for one-click targeting. No MCP tool yet — call the REST 
 
 - Channels can only be connected/reconnected via the web UI (OAuth) — not via API
 - LinkedIn channels are either a personal profile or a company page (`accountType`: `personal` / `organization`); both are connected in the dashboard and posted to like any other channel. They run on separate LinkedIn apps and are gated separately — `list_platforms` reports pages under `variants.organization`, so check that (not the platform-level state) before telling a user they can connect a company page
-- `search_mentions` works on X/Twitter and Bluesky only
+- `search_mentions` works on X/Twitter, Bluesky and LinkedIn (on LinkedIn the query is a Page's URL slug, exact match)
 - Token "expired" means the user needs to reconnect at app.bulkpublish.com/channels

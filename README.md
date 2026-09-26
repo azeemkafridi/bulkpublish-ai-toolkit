@@ -4,7 +4,7 @@ Connect your AI assistant to [BulkPublish](https://bulkpublish.com) — schedule
 
 ## What You Get
 
-**51 MCP tools** in the local server (`npx @bulkpublish/mcp-server`), including interactive MCP Apps widgets. The hosted server at `https://mcp.bulkpublish.com/mcp` (OAuth 2.1, used by the Claude and ChatGPT directories) serves a 20-tool `core` profile — channels, posts, media, analytics and the interactive panels — and `BULKPUBLISH_TOOL_PROFILE=core|full` switches either.
+**72 MCP tools** in the local server (`npx @bulkpublish/mcp-server`), including interactive MCP Apps widgets. The hosted server at `https://mcp.bulkpublish.com/mcp` (OAuth 2.1, used by the Claude and ChatGPT directories) serves a 20-tool `core` profile — channels, posts, media, analytics and the interactive panels — and `BULKPUBLISH_TOOL_PROFILE=core|full` switches either.
 
 | Category | Tools (full profile) | Examples |
 |---|---|---|

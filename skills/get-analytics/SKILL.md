@@ -9,7 +9,7 @@ description: Pull analytics, engagement metrics, and performance data from BulkP
 
 | Tool | Use for | Key params |
 |---|---|---|
-| `get_analytics` | Overall summary for a date range | `startDate`, `endDate` (ISO dates) |
+| `get_analytics` | Overall summary for a date range | `from`, `to` (ISO dates); optional `channelIds`, `platforms`, `labelIds`, `postFormat`, `mediaType`, `compare` |
 | `get_post_metrics` | Single post engagement | `postId` |
 | `get_quota_usage` | Plan limits and current usage | none |
 | `list_posts` | Find posts to analyze | `status`, `approvalStatus`, `from`, `to`, `channelId`, `search` |

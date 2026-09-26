@@ -146,14 +146,14 @@ description: Complete reference for the 15 BulkPublish platforms (plus Reddit, c
 **Media specs:** Video max 4GB (mp4/mov), max 1. Image max 20MB (jpg/jpeg/webp), max 35 for slideshow.
 
 **platformSpecific options:**
-- `privacyLevel` — `SELF_ONLY` (default), `PUBLIC`, `FRIENDS`
+- `privacyLevel` — `PUBLIC_TO_EVERYONE` (default when omitted), `MUTUAL_FOLLOW_FRIENDS`, `FOLLOWER_OF_CREATOR`, `SELF_ONLY`; any other value is rejected with 400, and TikTok accepts only the levels the connected account offers
 - `disableDuet` — boolean
 - `disableStitch` — boolean
 - `disableComment` — boolean
 - `isAigc` — boolean (AI-generated content disclosure)
 - `thumbnailTimestamp` — number (seconds into the video) for the cover frame
 
-**IMPORTANT:** TikTok ONLY accepts video (or images for slideshow). Default privacy is `SELF_ONLY` — set to `PUBLIC` for visibility.
+**IMPORTANT:** TikTok ONLY accepts video (or images for slideshow). Omitted privacy publishes as `PUBLIC_TO_EVERYONE` — ask the user and set `privacyLevel` explicitly.
 
 ---
 
@@ -344,7 +344,7 @@ The two run on separate LinkedIn apps (company pages use the Community Managemen
 | `type` | `"link"` forces a link submission. |
 | `url` | Destination URL for a link post; implies `type: "link"`. |
 | `flairId` | Link-flair id. List a subreddit's flairs via `GET /api/channels/{id}/options`. |
-| `thumbnailUrl` | **REQUIRED for video posts.** Reddit rejects a video submission without a poster image and there is **no** fallback to an attached image or the video's auto-extracted poster frame — unlike Pinterest's `coverImageUrl`. Omitting it fails the publish. |
+| `thumbnailUrl` | Poster image for a video post. Optional: when omitted the video's auto-extracted poster frame is used, and the publish fails only if neither exists. There is no attached-image fallback, since a Reddit media post takes exactly one file. |
 
 There is no `flairText`, `nsfw` or `spoiler` option — those are not read by the server.
 

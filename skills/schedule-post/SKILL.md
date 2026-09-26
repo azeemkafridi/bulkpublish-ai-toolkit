@@ -8,7 +8,7 @@ description: Create, schedule, or publish social media posts via BulkPublish MCP
 ## create_post parameters
 
 ```
-content        (string, required) — post text
+content        (string, optional) — post text; may be omitted for a media-only post
 channels       (array, required)  — [{channelId: number, platform: string}]
                                     Get these from list_channels first
 status         ("draft"|"scheduled") — default "draft"
@@ -60,7 +60,7 @@ Every post object returned by the API also carries the read-only approval fields
 |---|---|
 | Instagram | `reel`, `story`, `carousel` |
 | Facebook | `story`, `reel` |
-| TikTok | `slideshow` |
+| TikTok | `photo_slideshow` |
 | YouTube | `short` |
 | X/Twitter | `thread` |
 | Threads | `thread` |
@@ -133,7 +133,7 @@ not publish, even when they are scheduled and overdue. Default is `"none"`.
 - **Schedule for later**: `create_post` (status: "scheduled", scheduledAt: "2026-04-12T09:00:00Z")
 - **Schedule with review**: `create_post` (status: "scheduled", scheduledAt: ..., requestApproval: true) → a teammate calls `approve_post`
 - **Publish now, with review**: `create_post` (status: "scheduled", scheduledAt: <current time>, requestApproval: true, publishWhenApproved: true) → it publishes the moment a teammate approves it
-- **Optimal timing**: call `get_queue_slot` (optionally pass `timezone`, default UTC) to get the best next slot. It returns `{suggestedTime, timezone}` — it does NOT take a channelId or date (any such args are ignored).
+- **Optimal timing**: call `get_queue_slot` (optionally pass `timezone`, default UTC) to get the best next slot. It returns `{scheduledAt, dayLabel}`: pass `scheduledAt` straight to `create_post`. It does NOT take a channelId or date (any such args are ignored).
 - **Retry failures**: `retry_post` (postId, optional `republish`) re-queues the
   post's `failed` platforms. A platform can also end in status `unconfirmed` —
   terminal: the publish request may have reached the platform but its response
@@ -182,7 +182,7 @@ This publishes the post AS a story. The separate `publish_story` tool is only fo
 
 ## RSS Autopost (REST API)
 
-Auto-create posts from an RSS/Atom feed — BulkPublish polls each feed every 15 minutes and turns new items into posts. MCP tools `list/create/update/delete_rss_feed` exist (mcp-server ≥1.5.0); the REST API is `Authorization: Bearer bp_your_key`, base `https://app.bulkpublish.com`.
+Auto-create posts from an RSS/Atom feed — BulkPublish checks each feed on a plan-dependent interval (every 60 minutes on Free and Lifetime, 30 on Pro, 15 on Business) and turns new items into posts. MCP tools `list/create/update/delete_rss_feed` exist (mcp-server ≥1.5.0); the REST API is `Authorization: Bearer bp_your_key`, base `https://app.bulkpublish.com`.
 
 | Endpoint | Use for |
 |---|---|
@@ -191,10 +191,10 @@ Auto-create posts from an RSS/Atom feed — BulkPublish polls each feed every 15
 | `PUT /api/rss-feeds/{id}` | Partial update — body `{name?, feedUrl?, channelIds?, mode?, fieldMapping?, enabled?}` |
 | `DELETE /api/rss-feeds/{id}` | Delete |
 
-- `mode` is `"draft"` or `"publish"`, **default `"draft"`** — draft: new feed items land as draft posts for review; publish: they are auto-published
+- `mode` is `"draft"` or `"publish"`, **default `"draft"`** — draft: new feed items land as draft posts for review; publish: they are auto-published. `"publish"` needs a plan with RSS auto-publish (not Free): otherwise **403** `FEATURE_DISABLED`
 - `feedUrl` must be a public http(s) RSS 2.0/Atom URL — the server validates it is reachable at create time
 - `channelIds` needs at least 1 org-owned channel id; `name` max 100 chars
-- Max **20 feeds per org** → 400 beyond that
+- The number of feeds is capped by plan (Free 1, Lifetime 3, Pro 10, Business 50); creating beyond it returns **403** with `error.code: "QUOTA_EXCEEDED"`
 - **Changing `feedUrl` re-baselines the feed** (resets `lastCheckedAt`): only items newer than the change are posted — the old backlog is never flooded
 - Feed object includes `enabled`, `lastCheckedAt`, `lastError` for troubleshooting
 - **`fieldMapping`** (optional; `null` = default `{title}` + blank line + `{link}`, no enclosure attached, article image taken when a channel needs one) controls how an item becomes a post:
@@ -208,6 +208,10 @@ Auto-create posts from an RSS/Atom feed — BulkPublish polls each feed every 15
 ## Common mistakes
 
 - `channels` takes objects `{channelId, platform}`, NOT just IDs
+- A scheduled post naming a disconnected channel returns **400** with
+  `error.code: "CHANNEL_INACTIVE"` and `error.channelIds` listing them. Ask the
+  user to reconnect those accounts or drop them from `channels`; a draft may
+  still name one.
 - Always call `list_channels` first to get valid channelId + platform pairs
 - `scheduledAt` must be in the future and in ISO 8601 format
 - To publish immediately: create as draft, then call `publish_post`
