@@ -213,7 +213,7 @@ Auto-create posts from an RSS/Atom feed — BulkPublish checks each feed on a pl
   user to reconnect those accounts or drop them from `channels`; a draft may
   still name one.
 - Always call `list_channels` first to get valid channelId + platform pairs
-- `scheduledAt` must be in the future and in ISO 8601 format
+- `scheduledAt` is ISO 8601. A time that is now or already past is accepted and publishes immediately, so double-check the date before sending.
 - To publish immediately: create as draft, then call `publish_post`
 - `mediaFileIds` are numbers from `upload_media`, not file paths
 - **Do NOT send image-only posts to YouTube or TikTok** — they will fail

@@ -95,6 +95,7 @@
 ## 1.9.2 (2026-09-11)
 
 ### Fixed
+- `schedule-post`: a `scheduledAt` that is now or in the past is accepted and publishes immediately (it was described as required to be in the future), so agents no longer refuse it, and are told to double-check the date.
 
 - **1.9.1 broke the GitHub import it claimed to fix.** Cursor's Import from
   GitHub Repo imports a repository *as a marketplace* and reads
