@@ -433,6 +433,22 @@ requires a publicly reachable URL, which the hosted server is.
 
 ---
 
+### Grok Bot
+
+Grok Bot, xAI's always-on cloud agent, is set up in chat rather than in a
+settings screen. Send it:
+
+```
+Add a custom MCP server called BulkPublish at https://mcp.bulkpublish.com/mcp
+```
+
+Confirm the name and address it shows back, then click **Authorize** on the
+connect card and sign in. Type `@` in a chat to attach BulkPublish. Grok Bot
+only reaches public HTTPS servers, which the hosted one is. It cannot run the
+local npx server.
+
+---
+
 ### Muse
 
 Muse, Meta's personal AI agent, has no connector settings screen. You set it

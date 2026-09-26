@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.10.5 — 2026-09-27
+
+- README: a Grok Bot section. Like Muse, it is set up with one chat message
+  and an Authorize card.
+
 ## 1.10.4 — 2026-09-26
 
 - README: a Muse section. Muse has no connector settings screen, so setup is one
