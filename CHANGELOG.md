@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.10.3 — 2026-09-26
+
+- Plugin: the local MCP server is pinned to `@bulkpublish/mcp-server@1.33.2`
+  instead of the unpinned latest, as the Claude plugin directory requires.
+
 ## 1.10.2 — 2026-09-26
 
 - README: the local server has 72 tools, not 51.
