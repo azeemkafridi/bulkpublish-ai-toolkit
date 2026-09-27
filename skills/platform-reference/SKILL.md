@@ -31,7 +31,7 @@ description: Complete reference for the 15 BulkPublish platforms (plus Reddit, c
 | `reel` | 1 video required | Vertical short-form video |
 | `story` | 1 image OR 1 video required | Disappears after 24h |
 
-**Media specs:** Image max 10MB (jpg/png/gif/webp). Video max 2GB (mp4/mov).
+**Media specs:** Image max 10MB (jpg/png/gif/webp). Video max 2GB (mp4/mov). Reel video 3–90s, Story video 3–60s; a plain video post has no length limit.
 
 **platformSpecific options:**
 - `linkPreview.url`
@@ -63,7 +63,7 @@ description: Complete reference for the 15 BulkPublish platforms (plus Reddit, c
 | `story` | 1 image OR 1 video required | Disappears after 24h |
 | `carousel` | 2-10 images/videos required | Mixed media OK |
 
-**Media specs:** Image max 8MB (jpg/jpeg only). Video max 1GB (mp4/mov).
+**Media specs:** Image max 8MB (jpg/jpeg only). Video max 1GB (mp4/mov). Reel and feed video 3s–15min, Story video 3–60s; carousel videos are not length-checked.
 
 **platformSpecific options:**
 - `collaborators` — string (comma-separated) or array of usernames, without a leading `@`. Tagged as co-authors. Post types `feed_photo`, `feed_video`, `reel` and `carousel`; ignored on `story`
@@ -92,7 +92,7 @@ description: Complete reference for the 15 BulkPublish platforms (plus Reddit, c
 | `tweet` (default) | 0-4 images OR 0-1 video | Text-only OK. No mixing images+video |
 | `thread` | Per-part media | Use `postFormat: "thread"` + `threadParts` |
 
-**Media specs:** Image max 5MB (jpg/png/gif/webp), max 4. Video max 512MB (mp4/mov), max 1, max 140s.
+**Media specs:** Image max 5MB (jpg/png/gif/webp), max 4. Video max 512MB (mp4/mov), max 1, up to 20 min (125 min on X Premium; X checks this, BulkPublish does not).
 
 ---
 
@@ -205,7 +205,7 @@ The two run on separate LinkedIn apps (company pages use the Community Managemen
 | `video_pin` | 1 video required | Video pin |
 | `carousel` | 2-5 images required | Multi-image pin |
 
-**Media specs:** Image max 20MB (jpg/png/webp), max 5. 1000x1500 recommended. Video max 2GB (mp4/mov), max 1.
+**Media specs:** Image max 20MB (jpg/png/webp), max 5. 1000x1500 recommended. Video max 2GB (mp4/mov), max 1; a video pin must be at least 4s.
 
 **platformSpecific options:**
 - `title` — **REQUIRED**, 1-100 chars (falls back to first 100 chars of content)
@@ -235,7 +235,7 @@ The two run on separate LinkedIn apps (company pages use the Community Managemen
 | `carousel` | 2-20 images/videos | Mixed media OK |
 | `thread` | Per-part | Use `postFormat: "thread"` + `threadParts` |
 
-**Media specs:** Image max 8MB (jpg/png), max 20. Video max 500MB (mp4/mov), max 20.
+**Media specs:** Image max 8MB (jpg/png), max 20. Video max 500MB (mp4/mov), max 20, each up to 5 min.
 
 **platformSpecific options:** `quotePostId` — quote another Threads post
 
@@ -256,7 +256,7 @@ The two run on separate LinkedIn apps (company pages use the Community Managemen
 | `post` (default) | 0-4 images OR 0-1 video | Text-only OK. No mixing. |
 | `thread` | Per-part | Use `postFormat: "thread"` + `threadParts` |
 
-**Media specs:** Image max 10MB auto-resized to <976KB (jpg/png/webp), max 4. Video max 100MB (mp4 only), max 1, max 60s.
+**Media specs:** Image max 10MB auto-resized to <976KB (jpg/png/webp), max 4. Video max 100MB (mp4 only), max 1.
 
 ---
 
@@ -305,7 +305,7 @@ The two run on separate LinkedIn apps (company pages use the Community Managemen
 | `post` (default) | 0-4 images OR 0-1 video | Text-only OK. No mixing. |
 | `thread` | Per-part | Use `postFormat: "thread"` + `threadParts` |
 
-**Media specs:** Image max 16MB (jpg/png/webp/avif/gif), max 4. Video max 99MB (mp4 only), max 1, max 300s.
+**Media specs:** Image max 16MB (jpg/png/webp/avif/gif), max 4. Video max 99MB (mp4 only), max 1 (Mastodon sets no length limit).
 
 **platformSpecific options:**
 - `visibility` — `public` (default), `unlisted`, `private`, `direct`

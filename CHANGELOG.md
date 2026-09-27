@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.10.6 — 2026-09-27
+
+- Skills: media specs corrected against each platform's own docs. X videos
+  run to 20 minutes (longer on X Premium), not 140 seconds; Bluesky and
+  Mastodon set no video length; Instagram Reels are 3 seconds to 15 minutes,
+  not 3–90 seconds; TikTok allows 3 minutes for every account and 5 or 10 for
+  some. Added the Reel and Story ranges for Facebook and Instagram, the Threads
+  5-minute cap and the Pinterest 4-second floor, all of which BulkPublish now
+  checks when a post is scheduled or published.
+
 ## 1.10.5 — 2026-09-27
 
 - README: a Grok Bot section. Like Muse, it is set up with one chat message
