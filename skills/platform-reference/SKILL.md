@@ -92,7 +92,7 @@ description: Complete reference for the 15 BulkPublish platforms (plus Reddit, c
 | `tweet` (default) | 0-4 images OR 0-1 video | Text-only OK. No mixing images+video |
 | `thread` | Per-part media | Use `postFormat: "thread"` + `threadParts` |
 
-**Media specs:** Image max 5MB (jpg/png/gif/webp), max 4. Video max 512MB (mp4/mov), max 1, up to 20 min (125 min on X Premium; X checks this, BulkPublish does not).
+**Media specs:** Image max 5MB (jpg/png/gif/webp), max 4. Video max 512MB (mp4/mov), max 1, up to 140s (up to 4 hours with X Premium; X checks this, BulkPublish does not).
 
 ---
 

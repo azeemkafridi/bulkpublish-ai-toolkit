@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.10.7 — 2026-09-27
+
+- Skills: X video length is back to 140 seconds (up to 4 hours with X
+  Premium), per X's own help center. 1.10.6 had moved it to 20 minutes from
+  X's API upload docs, which is not what a standard account may post.
+
 ## 1.10.6 — 2026-09-27
 
 - Skills: media specs corrected against each platform's own docs. X videos
