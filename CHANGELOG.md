@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.10.8 — 2026-09-27
+
+- Skills: Bluesky video no longer claims a 100MB limit (not published for
+  the upload path used; ~19MB proven). Pinterest video pins are 4 seconds to
+  5 minutes, with no published file size for ordinary pins (2GB is the
+  video-ads figure).
+
 ## 1.10.7 — 2026-09-27
 
 - Skills: X video length is back to 140 seconds (up to 4 hours with X
