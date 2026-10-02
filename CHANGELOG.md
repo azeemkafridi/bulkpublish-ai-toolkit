@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.10.9 — 2026-10-02
+
+- Skills: `search_mentions` now covers Mastodon. Handles come back as
+  `@username` (same server) or `@username@domain` (another server).
+
 ## 1.10.8 — 2026-09-27
 
 - Skills: Bluesky video no longer claims a 100MB limit (not published for
